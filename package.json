@@ -2,7 +2,7 @@
   "name": "js-tests",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "proprietary",
+  "license": "ICU",
   "scripts": {
     "test": "jest"
   },
