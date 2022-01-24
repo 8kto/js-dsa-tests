@@ -1,38 +1,27 @@
 // const { Stack } = require('./stack')
 class Stack {
-  counter = 0
-  storage = {}
+  storage = []
+
+  pop () {
+    return this.storage.pop() || null
+  }
 
   push (value) {
-    this.storage[this.counter] = value
-    this.counter++
+    this.storage.push(value)
 
     return this
   }
 
-  pop () {
-    if (!this.counter) return null
-
-    const res = this.storage[this.counter - 1]
-    delete this.storage[this.counter]
-    this.counter--
-
-    return res
-  }
-
   size () {
-    return this.counter
+    return this.storage.length
   }
 
   top () {
-    if (!this.counter) return null
-
-    return this.storage[this.counter - 1]
+    return this.storage[this.storage.length - 1] || null
   }
 
   empty () {
-    this.counter = 0
-    this.storage = {}
+    this.storage = []
   }
 }
 

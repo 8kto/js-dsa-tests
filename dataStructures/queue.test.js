@@ -1,4 +1,34 @@
-const { Queue } = require('./queue')
+// const { Queue } = require('./queue')
+
+class Queue {
+  storage = []
+
+  enqueue (value) {
+    this.storage.push(value)
+
+    return this
+  }
+
+  dequeue () {
+    return this.storage.shift() || null
+  }
+
+  front () {
+    return this.storage[0] || null
+  }
+
+  empty () {
+    this.storage = []
+  }
+
+  isEmpty () {
+    return this.storage.length === 0
+  }
+
+  size () {
+    return this.storage.length
+  }
+}
 
 describe('queue', () => {
   it('adds and returns stuff', () => {
