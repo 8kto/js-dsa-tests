@@ -1,14 +1,40 @@
-/**
- The functions associated with stack are:
+// const { Stack } = require('./stack')
+class Stack {
+  counter = 0
+  storage = {}
 
- empty() – Returns whether the stack is empty – Time Complexity: O(1)
- size() – Returns the size of the stack – Time Complexity: O(1)
- top() – Returns a reference to the topmost element of the stack – Time Complexity: O(1)
- push(a) – Inserts the element ‘a’ at the top of the stack – Time Complexity: O(1)
- pop() – Deletes the topmost element of the stack – Time Complexity: O(1)
- */
+  push (value) {
+    this.storage[this.counter] = value
+    this.counter++
 
-const { Stack } = require('./stack')
+    return this
+  }
+
+  pop () {
+    if (!this.counter) return null
+
+    const res = this.storage[this.counter - 1]
+    delete this.storage[this.counter]
+    this.counter--
+
+    return res
+  }
+
+  size () {
+    return this.counter
+  }
+
+  top () {
+    if (!this.counter) return null
+
+    return this.storage[this.counter - 1]
+  }
+
+  empty () {
+    this.counter = 0
+    this.storage = {}
+  }
+}
 
 describe('stack', () => {
   it('pushes and pops stuff', () => {
@@ -53,5 +79,4 @@ describe('stack', () => {
     expect(stack.pop()).toEqual(null)
     expect(stack.size()).toEqual(0)
   })
-
 })

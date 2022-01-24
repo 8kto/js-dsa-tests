@@ -1,7 +1,8 @@
-function quickSort (arr) {
+const quickSort = (arr) => {
   if (arr.length <= 1) return arr
 
-  const left = [], right = [], pivot = arr[0]
+  const pivot = arr[0]
+  const left = [], right = []
 
   for (let i = 1; i < arr.length; i++) {
     arr[i] < pivot
