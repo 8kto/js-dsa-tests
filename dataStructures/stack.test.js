@@ -1,28 +1,20 @@
 // const { Stack } = require('./stack')
+
 class Stack {
   storage = []
 
-  pop () {
-    return this.storage.pop() || null
-  }
-
   push (value) {
     this.storage.push(value)
-
     return this
   }
 
-  size () {
-    return this.storage.length
-  }
+  pop () {return this.storage.pop() || null}
 
-  top () {
-    return this.storage[this.storage.length - 1] || null
-  }
+  size () {return this.storage.length}
 
-  empty () {
-    this.storage = []
-  }
+  empty () {this.storage = []}
+
+  top () {return this.storage[this.storage.length - 1] || null}
 }
 
 describe('stack', () => {

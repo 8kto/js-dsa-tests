@@ -13,22 +13,26 @@ class Node {
   }
 }
 
-class BinarySearchTree {
-  logger = {
-    storage: [],
-    log (data) {
-      this.storage.push(data)
-    },
-    toString () {
-      return this.storage.join(' ')
-    },
-    clear () {
-      this.storage = []
-    },
+class Logger {
+  storage = []
+
+  log (data) {
+    this.storage.push(data)
   }
 
+  toString () {
+    return this.storage.join(' ')
+  }
+
+  clear () {
+    this.storage = []
+  }
+}
+
+class BinarySearchTree {
   constructor () {
     this.root = null
+    this.logger = new Logger()
   }
 
   insert (data) {
@@ -100,21 +104,21 @@ class BinarySearchTree {
     if (node === null)
       return null
 
-    // if data to be delete is less than
+      // if data to be delete is less than
     // roots data then move to left subtree
     else if (key < node.data) {
       node.left = this.removeNode(node.left, key)
       return node
     }
 
-    // if data to be delete is greater than
+      // if data to be delete is greater than
     // roots data then move to right subtree
     else if (key > node.data) {
       node.right = this.removeNode(node.right, key)
       return node
     }
 
-    // if data is similar to the root's data
+      // if data is similar to the root's data
     // then delete this node
     else {
       // deleting node with no children
@@ -216,4 +220,4 @@ class BinarySearchTree {
   }
 }
 
-module.exports = { BinarySearchTree }
+module.exports = { BinarySearchTree, Logger }

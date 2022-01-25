@@ -1,4 +1,5 @@
 /**
+ * @link https://betterprogramming.pub/8-common-data-structures-in-javascript-3d3537e69a27
  The functions associated with stack are:
 
  empty() – Returns whether the stack is empty – Time Complexity: O(1)

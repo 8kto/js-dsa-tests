@@ -5,29 +5,18 @@ class Queue {
 
   enqueue (value) {
     this.storage.push(value)
-
     return this
   }
 
-  dequeue () {
-    return this.storage.shift() || null
-  }
+  dequeue () {return this.storage.shift() || null}
 
-  front () {
-    return this.storage[0] || null
-  }
+  front () {return this.storage[0] || null}
 
-  empty () {
-    this.storage = []
-  }
+  size () {return this.storage.length}
 
-  isEmpty () {
-    return this.storage.length === 0
-  }
+  empty () {this.storage = []}
 
-  size () {
-    return this.storage.length
-  }
+  isEmpty () {return this.storage.length === 0}
 }
 
 describe('queue', () => {

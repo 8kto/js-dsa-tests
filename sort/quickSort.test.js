@@ -1,14 +1,9 @@
 const quickSort = (arr) => {
-  if (arr.length <= 1) return arr
+  if (!arr.length) return []
 
-  const pivot = arr[0]
-  const left = [], right = []
-
-  for (let i = 1; i < arr.length; i++) {
-    arr[i] < pivot
-      ? left.push(arr[i])
-      : right.push(arr[i])
-  }
+  const [pivot, ...rest] = arr
+  const left = rest.filter(e => e < pivot)
+  const right = rest.filter(e => e >= pivot)
 
   return quickSort(left).concat(pivot).concat(quickSort(right))
 }
