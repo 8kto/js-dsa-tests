@@ -1,17 +1,16 @@
 // const { breadthFirstSearch } = require('./breadthFirstSearch')
 
 const breadthFirstSearch = (tree, root, value) => {
-  const queue = []
+  const q = [root]
   const path = []
 
-  queue.push(root)
-  while (queue.length) {
-    const node = queue.shift()
+  while (q.length) {
+    const node = q.shift()
     path.push(node.value)
 
-    if (value === node.value) return path
-    if (node.left !== null) queue.push(tree[node.left])
-    if (node.right !== null) queue.push(tree[node.right])
+    if (node.value === value) return path
+    if (node.left !== null) q.push(tree[node.left])
+    if (node.right !== null) q.push(tree[node.right])
   }
 
   return null

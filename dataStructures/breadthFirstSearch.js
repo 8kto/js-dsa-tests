@@ -9,9 +9,9 @@ let breadthFirstSearch = (tree, rootNode, searchValue) => {
   queue.push(rootNode)
 
   // search the queue until it is empty
-  while (queue.length > 0) {
+  while (queue.length) {
     // assign the top of the queue to variable currentNode
-    let currentNode = queue[0]
+    let currentNode = queue.shift()
     path.push(currentNode.value)
 
     // if currentNode is the node we're searching for, break & alert
@@ -28,9 +28,6 @@ let breadthFirstSearch = (tree, rootNode, searchValue) => {
     if (currentNode.right !== null) {
       queue.push(tree[currentNode.right])
     }
-
-    // remove the currentNode from the queue.
-    queue.shift()
   }
 
   console.log('Sorry, no such node found :(')
