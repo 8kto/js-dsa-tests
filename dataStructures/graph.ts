@@ -36,12 +36,16 @@ export class Graph<T = unknown> {
   static UNDIRECTED = Symbol('directed graph') // two-ways edges
   static DIRECTED = Symbol('undirected graph') // one-way edges
 
-  private nodes: Map<T, GraphNode<T>>
+  private readonly nodes: Map<T, GraphNode<T>>
   private readonly edgeDirection: typeof Graph.UNDIRECTED | typeof Graph.DIRECTED
 
   constructor(edgeDirection = Graph.UNDIRECTED) {
     this.nodes = new Map()
     this.edgeDirection = edgeDirection
+  }
+
+  getNodes() {
+    return this.nodes
   }
 
   addEdge(source: T, destination: T) {
