@@ -1,17 +1,20 @@
 /**
  * @link https://adrianmejia.com/data-structures-for-beginners-graphs-time-complexity-tutorial
  */
-class Node {
-  constructor (value) {
+export class GraphNode {
+  private value: unknown
+  private readonly adjacents: GraphNode[]
+
+  constructor(value) {
     this.value = value
     this.adjacents = []
   }
 
-  addAdjacent (node) {
+  addAdjacent(node) {
     this.adjacents.push(node)
   }
 
-  removeAdjacent (node) {
+  removeAdjacent(node) {
     const index = this.adjacents.indexOf(node)
     if (index !== -1) {
       this.adjacents.splice(index, 1)
@@ -20,22 +23,28 @@ class Node {
     }
   }
 
-  getAdjacents () {
+  getAdjacents() {
     return this.adjacents
   }
 
-  isAdjacent (node) {
+  isAdjacent(node) {
     return this.adjacents.indexOf(node) !== -1
   }
 }
 
-class Graph {
-  constructor (edgeDirection = Graph.UNDIRECTED) {
+export class Graph {
+  static UNDIRECTED = Symbol('directed graph') // two-ways edges
+  static DIRECTED = Symbol('undirected graph') // one-way edges
+
+  private nodes: Map<any, any>;
+  private readonly edgeDirection: any;
+
+  constructor(edgeDirection = Graph.UNDIRECTED) {
     this.nodes = new Map()
     this.edgeDirection = edgeDirection
   }
 
-  addEdge (source, destination) {
+  addEdge(source, destination) {
     const sourceNode = this.addVertex(source)
     const destinationNode = this.addVertex(destination)
 
@@ -47,16 +56,16 @@ class Graph {
     return [sourceNode, destinationNode]
   }
 
-  addVertex (value) {
+  addVertex(value) {
     if (this.nodes.has(value)) return this.nodes.get(value)
 
-    const vertex = new Node(value)
+    const vertex = new GraphNode(value)
     this.nodes.set(value, vertex)
 
     return vertex
   }
 
-  removeVertex (value) {
+  removeVertex(value) {
     const current = this.nodes.get(value)
     if (current) {
       for (const node of this.nodes.values()) {
@@ -67,7 +76,7 @@ class Graph {
     this.nodes.delete(value)
   }
 
-  removeEdge (source, destination) {
+  removeEdge(source, destination) {
     const sourceNode = this.nodes.get(source)
     const destinationNode = this.nodes.get(destination)
 
@@ -81,7 +90,7 @@ class Graph {
     return [sourceNode, destinationNode]
   }
 
-  * bfs (first) {
+  * bfs(first) {
     const visited = new Map()
     const queue = [first]
 
@@ -95,7 +104,7 @@ class Graph {
     }
   }
 
-  * dfs (first) {
+  * dfs(first) {
     const visited = new Map()
     const stack = [first]
 
@@ -109,8 +118,3 @@ class Graph {
     }
   }
 }
-
-Graph.UNDIRECTED = Symbol('directed graph') // two-ways edges
-Graph.DIRECTED = Symbol('undirected graph') // one-way edges
-
-module.exports = { Graph, Node }

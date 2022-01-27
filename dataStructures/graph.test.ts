@@ -1,4 +1,5 @@
-const { Graph } = require('./graph')
+// const { Graph } = require('./graph')
+import { Graph } from './graph'
 
 describe('Graph', () => {
   it('searches [bfs]', () => {
