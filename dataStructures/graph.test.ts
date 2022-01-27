@@ -1,4 +1,100 @@
-import {Graph, GraphNode} from './graph'
+// import {Graph, GraphNode} from './graph'
+
+// import {Graph, GraphNode as GraphNodeSrc} from './graph'
+
+export class GraphNode<T = unknown> {
+  value: T
+  private adjacents: GraphNode<T>[]
+
+  constructor(value: T) {
+    this.value = value
+    this.adjacents = []
+  }
+
+  addAdjacent(node: GraphNode<T>) {
+    this.adjacents.push(node)
+  }
+
+  removeAdjacent(node: GraphNode<T>) {
+    this.adjacents = this.adjacents.filter(n => n !== node)
+
+    return node
+  }
+
+  getAdjacents() {
+    return this.adjacents
+  }
+
+  isAdjacent(node: GraphNode<T>) {
+    return this.adjacents.some(adj => adj === node)
+  }
+}
+
+export class Graph<T> {
+  static UNDIRECTED = Symbol('undirected graph')
+  static DIRECTED = Symbol('directed graph')
+
+  private direction
+  private nodes: Map<T, GraphNode<T>>
+
+  constructor(direction = Graph.UNDIRECTED) {
+    this.direction = direction
+    this.nodes = new Map()
+  }
+
+  getNodes() {
+    return this.nodes
+  }
+
+  addVertex(value: T): GraphNode<T> {
+    if (this.nodes.has(value)) return this.nodes.get(value)
+    const node = new GraphNode<T>(value)
+    this.nodes.set(value, node)
+
+    return node
+  }
+
+  removeVertex(value: T) {
+    const node = this.nodes.get(value)
+    if (node) {
+      for (const n of this.nodes.values()) {
+        n.removeAdjacent(node)
+      }
+    }
+
+    this.nodes.delete(value)
+  }
+
+  addEdge(src: T, target: T) {
+    const srcVertex = this.addVertex(src)
+    const targetVertex = this.addVertex(target)
+
+    if (srcVertex && targetVertex) {
+      srcVertex.addAdjacent(targetVertex)
+
+      if (this.direction === Graph.UNDIRECTED) {
+        targetVertex.addAdjacent(srcVertex)
+      }
+    }
+
+    return [srcVertex, targetVertex]
+  }
+
+  removeEdge(src: T, target: T) {
+    const srcVertex = this.addVertex(src)
+    const targetVertex = this.addVertex(target)
+
+    if (srcVertex && targetVertex) {
+      srcVertex.removeAdjacent(targetVertex)
+
+      if (this.direction === Graph.UNDIRECTED) {
+        targetVertex.removeAdjacent(srcVertex)
+      }
+    }
+
+    return [srcVertex, targetVertex]
+  }
+}
 
 describe('Graph', () => {
   it('addEdge', () => {
@@ -9,10 +105,15 @@ describe('Graph', () => {
 
     expect(first1).toBe(first2)
     expect(first1.value).toBe(1)
+    expect(first1.isAdjacent(third1)).toBe(true)
+
     expect(second1).toBe(second2)
     expect(second1.value).toBe(2)
+    expect(first1.isAdjacent(second1)).toBe(true)
+
     expect(third1).toBe(third2)
     expect(third1.value).toBe(3)
+    expect(second1.isAdjacent(third1)).toBe(true)
   })
 
   it('removeEdge', () => {
@@ -27,10 +128,15 @@ describe('Graph', () => {
 
     expect(first1).toBe(first2)
     expect(first1.value).toBe(1)
+    expect(first1.isAdjacent(third1)).toBe(false)
+
     expect(second1).toBe(second2)
     expect(second1.value).toBe(2)
+    expect(first1.isAdjacent(second1)).toBe(false)
+
     expect(third1).toBe(third2)
     expect(third1.value).toBe(3)
+    expect(third1.isAdjacent(second1)).toBe(false)
   })
 
   it('addVertex', () => {
@@ -41,9 +147,11 @@ describe('Graph', () => {
 
     expect(first1.value).toBe(10)
     expect(second1.value).toBe(20)
+    expect(first1.isAdjacent(second1)).toBe(true)
+    expect(second1.isAdjacent(first1)).toBe(true)
   })
 
-  it('addVertex', () => {
+  it('removeVertex', () => {
     const graph = new Graph<number>(Graph.UNDIRECTED)
 
     expect(graph.getNodes().size).toEqual(0)
@@ -57,7 +165,50 @@ describe('Graph', () => {
     expect(graph.getNodes().size).toEqual(0)
   })
 
-  describe('search', () => {
+  // TODO find out whether needed or not
+  xit('removes adjacents for removed Vertex', () => {
+    const graph = new Graph<number>(Graph.UNDIRECTED)
+
+    const v1 = graph.addVertex(10)
+    const v2 = graph.addVertex(20)
+    graph.addEdge(10, 20)
+    const [, v3] = graph.addEdge(20, 30)
+    graph.addEdge(10, 30)
+
+    expect(v1.isAdjacent(v2)).toBe(true)
+    expect(v1.isAdjacent(v3)).toBe(true)
+    expect(v2.isAdjacent(v1)).toBe(true)
+    expect(v2.isAdjacent(v3)).toBe(true)
+    expect(v3.isAdjacent(v2)).toBe(true)
+    expect(v3.isAdjacent(v1)).toBe(true)
+
+    graph.removeVertex(10)
+    expect(v1.isAdjacent(v2)).toBe(false)
+    expect(v1.isAdjacent(v3)).toBe(false)
+    expect(v2.isAdjacent(v1)).toBe(false)
+    expect(v2.isAdjacent(v3)).toBe(true)
+    expect(v3.isAdjacent(v2)).toBe(true)
+    expect(v3.isAdjacent(v1)).toBe(false)
+
+    graph.removeVertex(20)
+    expect(v1.isAdjacent(v2)).toBe(false)
+    expect(v1.isAdjacent(v3)).toBe(false)
+    expect(v2.isAdjacent(v1)).toBe(false)
+    expect(v2.isAdjacent(v3)).toBe(false)
+    expect(v3.isAdjacent(v2)).toBe(false)
+    expect(v3.isAdjacent(v1)).toBe(false)
+
+    graph.removeVertex(30)
+    expect(v1.isAdjacent(v2)).toBe(false)
+    expect(v1.isAdjacent(v3)).toBe(false)
+    expect(v2.isAdjacent(v1)).toBe(false)
+    expect(v2.isAdjacent(v3)).toBe(false)
+    expect(v3.isAdjacent(v2)).toBe(false)
+    expect(v3.isAdjacent(v1)).toBe(false)
+  })
+
+
+  describe.skip('search', () => {
     let first: GraphNode<number>, graph: Graph<number>
 
     beforeEach(() => {

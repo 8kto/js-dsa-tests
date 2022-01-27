@@ -33,8 +33,8 @@ export class GraphNode<T = unknown> {
 }
 
 export class Graph<T = unknown> {
-  static UNDIRECTED = Symbol('directed graph') // two-ways edges
-  static DIRECTED = Symbol('undirected graph') // one-way edges
+  static UNDIRECTED = Symbol('undirected graph') // two-ways edges
+  static DIRECTED = Symbol('directed graph') // one-way edges
 
   private readonly nodes: Map<T, GraphNode<T>>
   private readonly edgeDirection: typeof Graph.UNDIRECTED | typeof Graph.DIRECTED
