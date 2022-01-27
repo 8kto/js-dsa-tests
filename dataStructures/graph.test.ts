@@ -1,9 +1,9 @@
 // const { Graph } = require('./graph')
-import { Graph } from './graph'
+import {Graph} from './graph'
 
 describe('Graph', () => {
   it('searches [bfs]', () => {
-    const graph = new Graph(Graph.UNDIRECTED)
+    const graph = new Graph<number>(Graph.UNDIRECTED)
 
     const [first] = graph.addEdge(1, 2)
     graph.addEdge(1, 3)
@@ -24,7 +24,7 @@ describe('Graph', () => {
   })
 
   it('searches [dfs]', () => {
-    const graph = new Graph(Graph.UNDIRECTED)
+    const graph = new Graph<number>(Graph.UNDIRECTED)
 
     const [first] = graph.addEdge(1, 2)
     graph.addEdge(1, 3)

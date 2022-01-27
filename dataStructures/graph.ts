@@ -1,20 +1,20 @@
 /**
  * @link https://adrianmejia.com/data-structures-for-beginners-graphs-time-complexity-tutorial
  */
-export class GraphNode {
-  private value: unknown
-  private readonly adjacents: GraphNode[]
+export class GraphNode<T = unknown> {
+  public value: T
+  private readonly adjacents: GraphNode<T>[]
 
-  constructor(value) {
+  constructor(value: T) {
     this.value = value
     this.adjacents = []
   }
 
-  addAdjacent(node) {
+  addAdjacent(node: GraphNode<T>) {
     this.adjacents.push(node)
   }
 
-  removeAdjacent(node) {
+  removeAdjacent(node: GraphNode<T>) {
     const index = this.adjacents.indexOf(node)
     if (index !== -1) {
       this.adjacents.splice(index, 1)
@@ -23,28 +23,28 @@ export class GraphNode {
     }
   }
 
-  getAdjacents() {
+  getAdjacents(): GraphNode<T>[] {
     return this.adjacents
   }
 
-  isAdjacent(node) {
+  isAdjacent(node: GraphNode<T>) {
     return this.adjacents.indexOf(node) !== -1
   }
 }
 
-export class Graph {
+export class Graph<T = unknown> {
   static UNDIRECTED = Symbol('directed graph') // two-ways edges
   static DIRECTED = Symbol('undirected graph') // one-way edges
 
-  private nodes: Map<any, any>;
-  private readonly edgeDirection: any;
+  private nodes: Map<T, GraphNode<T>>
+  private readonly edgeDirection: typeof Graph.UNDIRECTED | typeof Graph.DIRECTED
 
   constructor(edgeDirection = Graph.UNDIRECTED) {
     this.nodes = new Map()
     this.edgeDirection = edgeDirection
   }
 
-  addEdge(source, destination) {
+  addEdge(source: T, destination: T) {
     const sourceNode = this.addVertex(source)
     const destinationNode = this.addVertex(destination)
 
@@ -56,16 +56,16 @@ export class Graph {
     return [sourceNode, destinationNode]
   }
 
-  addVertex(value) {
+  addVertex(value: T) {
     if (this.nodes.has(value)) return this.nodes.get(value)
 
-    const vertex = new GraphNode(value)
+    const vertex = new GraphNode<T>(value)
     this.nodes.set(value, vertex)
 
     return vertex
   }
 
-  removeVertex(value) {
+  removeVertex(value: T) {
     const current = this.nodes.get(value)
     if (current) {
       for (const node of this.nodes.values()) {
@@ -76,7 +76,7 @@ export class Graph {
     this.nodes.delete(value)
   }
 
-  removeEdge(source, destination) {
+  removeEdge(source: T, destination: T) {
     const sourceNode = this.nodes.get(source)
     const destinationNode = this.nodes.get(destination)
 
@@ -90,9 +90,9 @@ export class Graph {
     return [sourceNode, destinationNode]
   }
 
-  * bfs(first) {
-    const visited = new Map()
-    const queue = [first]
+  * bfs(first: GraphNode<T>): Generator<GraphNode<T>> {
+    const visited = new Map<GraphNode, boolean>()
+    const queue: GraphNode<T>[] = [first]
 
     while (queue.length) {
       const vertex = queue.shift()
@@ -104,7 +104,7 @@ export class Graph {
     }
   }
 
-  * dfs(first) {
+  * dfs(first: GraphNode<T>) {
     const visited = new Map()
     const stack = [first]
 
