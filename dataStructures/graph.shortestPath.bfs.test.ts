@@ -31,14 +31,14 @@ const buildGraph = (graph: IGraph): IGraph => {
   return graph
 }
 
-describe('Graph', () => {
+describe('Shortest Path Graph Traversal', () => {
   let graph: IGraph
 
   beforeEach(() => {
     graph = buildGraph(new Graph())
   })
 
-  it('does the job', () => {
+  it('graph does the job', () => {
     expect(graph.getVertices()).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G'])
     expect(graph.getEdges()).toEqual(9)
     expect(graph.getAdjacent()).toEqual({
@@ -49,6 +49,42 @@ describe('Graph', () => {
       'E': ['C'],
       'F': ['D', 'G'],
       'G': ['F'],
+    })
+  })
+
+  describe('BFS return edges', () => {
+    it('returns false for unknown vertex', () => {
+      expect(graph.bfsEdges('X')).toEqual(false)
+    })
+
+    it('simple search', () => {
+      expect(graph.bfsEdges('G')).toEqual({
+        'A': 0,
+        'B': 1,
+        'C': 1,
+        'D': 1,
+        'E': 2,
+        'F': 2,
+        'G': 3,
+      })
+    })
+  })
+
+  describe('BFS returns path', () => {
+    it('returns false for unknown vertex', () => {
+      expect(graph.bfsEdges('X')).toEqual(false)
+    })
+
+    it('simple search', () => {
+      expect(graph.bfsEdges('G')).toEqual({
+        'A': 0,
+        'B': 1,
+        'C': 1,
+        'D': 1,
+        'E': 2,
+        'F': 2,
+        'G': 3,
+      })
     })
   })
 })

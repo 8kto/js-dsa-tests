@@ -10,7 +10,9 @@ export interface IGraph {
   // eslint-disable-next-line no-unused-vars
   addEdge(v: Vertex, w: Vertex): void
   // eslint-disable-next-line no-unused-vars
-  bfs(goal: Vertex, root: Vertex): unknown
+  bfs(goal: Vertex, root?: Vertex): unknown | boolean
+  // eslint-disable-next-line no-unused-vars
+  bfsEdges(goal: Vertex, root?: Vertex): unknown | boolean
 
   getVertices(): Vertex[]
   getAdjacent(): Record<Vertex, Vertex[]>
@@ -51,30 +53,57 @@ export class Graph implements IGraph {
     this.edges++
   }
 
-  bfs(goal: Vertex, root: Vertex = this.vertices[0]) {
-    const adj = this.adjacent
-
-    const queue = []
+  bfsEdges(goal: Vertex, root: Vertex = this.vertices[0]) {
+    const queue: Vertex[] = []
     queue.push(root)
 
-    const discovered: Record<Vertex, boolean> = {}
-    discovered[root] = true
+    const visited: Record<Vertex, boolean> = {}
+    visited[root] = true
+
+    const edges: Record<Vertex, number> = {}
+    edges[root] = 0
 
     while (queue.length) {
-      const v = queue.shift()
-      console.log(v)
+      const vertex = queue.shift() as Vertex
 
-      // NB the only purpose of this line is to calm down the strict linter
-      if (!v) return false
+      if (vertex === goal) return edges
 
-      if (v === goal) {
-        return true
+      for (let i = 0; i < this.adjacent[vertex].length; i++) {
+        const adj = this.adjacent[vertex][i]
+
+        if (!visited[adj]) {
+          visited[adj] = true
+          queue.push(adj)
+          edges[adj] = edges[vertex] + 1
+        }
       }
+    }
 
-      for (let i = 0; i < adj[v].length; i++) {
-        if (!discovered[adj[v][i]]) {
-          discovered[adj[v][i]] = true
-          queue.push(adj[v][i])
+    return false
+  }
+
+  bfs(goal: Vertex, root: Vertex = this.vertices[0]) {
+    const queue: Vertex[] = []
+    queue.push(root)
+
+    const visited: Record<Vertex, boolean> = {}
+    visited[root] = true
+
+    const edges: Record<Vertex, number> = {}
+    edges[root] = 0
+
+    while (queue.length) {
+      const vertex = queue.shift() as Vertex
+
+      if (vertex === goal) return edges
+
+      for (let i = 0; i < this.adjacent[vertex].length; i++) {
+        const adj = this.adjacent[vertex][i]
+
+        if (!visited[adj]) {
+          visited[adj] = true
+          queue.push(adj)
+          edges[adj] = edges[vertex] + 1
         }
       }
     }
