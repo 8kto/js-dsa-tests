@@ -1,7 +1,7 @@
 /**
  * @link https://levelup.gitconnected.com/finding-the-shortest-path-in-javascript-pt-1-breadth-first-search-67ae4653dbec
  */
-let breadthFirstSearch = (tree, rootNode, searchValue) => {
+export const breadthFirstSearch = (tree, rootNode, searchValue) => {
   // make a queue array
   let queue = []
   let path = []
@@ -31,7 +31,6 @@ let breadthFirstSearch = (tree, rootNode, searchValue) => {
   }
 
   console.log('Sorry, no such node found :(')
+
   return null
 }
-
-module.exports = { breadthFirstSearch }

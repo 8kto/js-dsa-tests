@@ -3,18 +3,27 @@
 class Stack {
   storage = []
 
-  push (value) {
+  push(value) {
     this.storage.push(value)
+
     return this
   }
 
-  pop () {return this.storage.pop() || null}
+  pop() {
+    return this.storage.pop() || null
+  }
 
-  size () {return this.storage.length}
+  size() {
+    return this.storage.length
+  }
 
-  empty () {this.storage = []}
+  empty() {
+    this.storage = []
+  }
 
-  top () {return this.storage[this.storage.length - 1] || null}
+  top() {
+    return this.storage[this.storage.length - 1] || null
+  }
 }
 
 describe('stack', () => {

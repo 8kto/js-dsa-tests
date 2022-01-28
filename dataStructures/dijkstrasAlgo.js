@@ -1,4 +1,4 @@
-let shortestDistanceNode = (distances, visited) => {
+export let shortestDistanceNode = (distances, visited) => {
   // create a default value for shortest
   let shortest = null
 
@@ -19,7 +19,7 @@ let shortestDistanceNode = (distances, visited) => {
   return shortest
 }
 
-let findShortestPath = (graph, startNode, endNode) => {
+export let findShortestPath = (graph, startNode, endNode) => {
   // track distances from the start node using a hash object
   let distances = {}
   distances[endNode] = 'Infinity'
@@ -43,7 +43,6 @@ let findShortestPath = (graph, startNode, endNode) => {
 
     // for each of those child nodes:
     for (let child in children) {
-
       // make sure each child node is not the start node
       if (String(child) === String(startNode)) {
         continue
@@ -82,5 +81,3 @@ let findShortestPath = (graph, startNode, endNode) => {
     path: shortestPath,
   }
 }
-
-module.exports = { findShortestPath }

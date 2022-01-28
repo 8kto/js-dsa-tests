@@ -1,4 +1,4 @@
-const { BinarySearchTree } = require('./binaryTree')
+import { BinarySearchTree } from './binaryTree'
 
 describe('BinarySearchTree', () => {
   let tree

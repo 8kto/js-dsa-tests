@@ -6,34 +6,32 @@
  isEmpty: determine whether the queue is empty
  size: get the number of element(s) in queue
  */
-class Queue {
+export class Queue {
   storage = []
 
-  enqueue (element) {
+  enqueue(element) {
     this.storage.push(element)
 
     return this
   }
 
-  dequeue () {
+  dequeue() {
     return this.storage.shift() || null
   }
 
-  front () {
+  front() {
     return this.storage[0] || null
   }
 
-  isEmpty () {
+  isEmpty() {
     return this.storage.length === 0
   }
 
-  size () {
+  size() {
     return this.storage.length
   }
 
-  empty () {
+  empty() {
     this.storage = []
   }
 }
-
-module.exports = { Queue }

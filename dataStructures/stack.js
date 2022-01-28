@@ -8,18 +8,18 @@
  push(a) – Inserts the element ‘a’ at the top of the stack – Time Complexity: O(1)
  pop() – Deletes the topmost element of the stack – Time Complexity: O(1)
  */
-class Stack {
+export class Stack {
   count = 0
   storage = {}
 
-  push (value) {
+  push(value) {
     this.storage[this.count] = value
     this.count++
 
     return this
   }
 
-  pop () {
+  pop() {
     if (this.count === 0) {
       return null
     }
@@ -31,7 +31,7 @@ class Stack {
     return result
   }
 
-  top () {
+  top() {
     if (this.count === 0) {
       return null
     }
@@ -39,16 +39,14 @@ class Stack {
     return this.storage[this.count - 1]
   }
 
-  size () {
+  size() {
     return this.count
   }
 
-  empty () {
+  empty() {
     this.storage = {}
     this.count = 0
 
     return this
   }
 }
-
-module.exports = { Stack }

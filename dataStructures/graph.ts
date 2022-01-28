@@ -37,7 +37,9 @@ export class Graph<T = unknown> {
   static DIRECTED = Symbol('directed graph') // one-way edges
 
   private readonly nodes: Map<T, GraphNode<T>>
-  private readonly edgeDirection: typeof Graph.UNDIRECTED | typeof Graph.DIRECTED
+  private readonly edgeDirection:
+    | typeof Graph.UNDIRECTED
+    | typeof Graph.DIRECTED
 
   constructor(edgeDirection = Graph.UNDIRECTED) {
     this.nodes = new Map()
@@ -95,7 +97,7 @@ export class Graph<T = unknown> {
     return [sourceNode, destinationNode]
   }
 
-  * bfs(first: GraphNode<T>): Generator<GraphNode<T>> {
+  *bfs(first: GraphNode<T>): Generator<GraphNode<T>> {
     const visited = new Map<GraphNode, boolean>()
     const queue: GraphNode<T>[] = [first]
 
@@ -109,7 +111,7 @@ export class Graph<T = unknown> {
     }
   }
 
-  * dfs(first: GraphNode<T>) {
+  *dfs(first: GraphNode<T>) {
     const visited = new Map()
     const stack = [first]
 

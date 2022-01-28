@@ -94,12 +94,12 @@ export class Graph<T> {
     return [srcVertex, targetVertex]
   }
 
-  *bfs(root: GraphNode){
+  *bfs(root: GraphNode) {
     const queue = []
     const visited = new Map()
 
     queue.push(root)
-    while(queue.length){
+    while (queue.length) {
       const node = queue.shift()
 
       if (!visited.has(node)) {
@@ -111,13 +111,13 @@ export class Graph<T> {
     }
   }
 
-  *dfs(root: GraphNode){
+  *dfs(root: GraphNode) {
     const stack = [root]
     const visited = new Map()
 
-    while (stack.length){
+    while (stack.length) {
       const node = stack.pop()
-      if (!visited.has(node)){
+      if (!visited.has(node)) {
         visited.set(node, true)
         yield node
 
@@ -237,7 +237,6 @@ describe('Graph', () => {
     expect(v3.isAdjacent(v2)).toBe(false)
     expect(v3.isAdjacent(v1)).toBe(false)
   })
-
 
   describe('search', () => {
     let first: GraphNode<number>, graph: Graph<number>

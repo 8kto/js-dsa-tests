@@ -69,20 +69,21 @@ describe('BinarySearchTree', () => {
   })
 
   it('searches nodes', () => {
-    expect(breadthFirstSearch(tree, tree[10], '12')).toEqual(
-      ['10', '4', '17', '1', '9', '12'],
-    )
+    expect(breadthFirstSearch(tree, tree[10], '12')).toEqual([
+      '10',
+      '4',
+      '17',
+      '1',
+      '9',
+      '12',
+    ])
   })
 
   it('does not find nodes', () => {
-    expect(breadthFirstSearch(tree, tree[10], '42')).toEqual(
-      null,
-    )
+    expect(breadthFirstSearch(tree, tree[10], '42')).toEqual(null)
   })
 
   it('searches nodes from subtree', () => {
-    expect(breadthFirstSearch(tree, tree[17], '18')).toEqual(
-      ['17', '12', '18'],
-    )
+    expect(breadthFirstSearch(tree, tree[17], '18')).toEqual(['17', '12', '18'])
   })
 })
