@@ -62,8 +62,11 @@ export class Graph<T = unknown> {
     return [sourceNode, destinationNode]
   }
 
-  addVertex(value: T) {
-    if (this.nodes.has(value)) return this.nodes.get(value)
+  addVertex(value: T): GraphNode<T> {
+    if (this.nodes.has(value)) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return this.nodes.get(value)!
+    }
 
     const vertex = new GraphNode<T>(value)
     this.nodes.set(value, vertex)
@@ -98,12 +101,12 @@ export class Graph<T = unknown> {
   }
 
   *bfs(first: GraphNode<T>): Generator<GraphNode<T>> {
-    const visited = new Map<GraphNode, boolean>()
-    const queue: GraphNode<T>[] = [first]
+    const visited = new Map()
+    const queue = [first]
 
     while (queue.length) {
       const vertex = queue.shift()
-      if (!visited.has(vertex)) {
+      if (vertex && !visited.has(vertex)) {
         yield vertex
         visited.set(vertex, true)
         vertex.getAdjacents().forEach(adj => queue.push(adj))
@@ -117,7 +120,7 @@ export class Graph<T = unknown> {
 
     while (stack.length) {
       const vertex = stack.pop()
-      if (!visited.has(vertex)) {
+      if (vertex && !visited.has(vertex)) {
         yield vertex
         visited.set(vertex, true)
         vertex.getAdjacents().forEach(adj => stack.push(adj))

@@ -1,22 +1,17 @@
-export class Node {
-  /** @var {any} */
-  data = null
+export class Node<T = unknown> {
+  data: T
+  left: Node<T> | null = null
+  right: Node<T> | null = null
 
-  /** @var {Node} */
-  left = null
-
-  /** @var {Node} */
-  right = null
-
-  constructor(data) {
+  constructor(data: T) {
     this.data = data
   }
 }
 
 export class Logger {
-  storage = []
+  storage: unknown[] = []
 
-  log(data) {
+  log(data: unknown) {
     this.storage.push(data)
   }
 
@@ -29,14 +24,17 @@ export class Logger {
   }
 }
 
-export class BinarySearchTree {
+export class BinarySearchTree<T> {
+  private root: Node<T> | null
+  private logger: Logger
+
   constructor() {
     this.root = null
     this.logger = new Logger()
   }
 
-  insert(data) {
-    const node = new Node(data)
+  insert(data: T) {
+    const node = new Node<T>(data)
 
     if (!this.root) {
       this.root = node
@@ -45,34 +43,30 @@ export class BinarySearchTree {
     }
   }
 
-  /**
-   * @param {Node} node
-   * @param {Node} newNode
-   */
-  insertNode(node, newNode) {
-    // if the data is less than the node
+  insertNode(rootNode: Node<T>, node: Node<T>) {
+    // if the data is less than the rootNode
     // data move left of the tree
-    if (newNode.data < node.data) {
-      // if left is null insert node here
-      if (node.left === null) node.left = newNode
+    if (node.data < rootNode.data) {
+      // if left is null insert rootNode here
+      if (rootNode.left === null) rootNode.left = node
       // if left is not null recur until
       // null is found
-      else this.insertNode(node.left, newNode)
+      else this.insertNode(rootNode.left, node)
     }
 
-    // if the data is more than the node
+    // if the data is more than the rootNode
     // data move right of the tree
     else {
-      // if right is null insert node here
-      if (node.right === null) node.right = newNode
+      // if right is null insert rootNode here
+      if (rootNode.right === null) rootNode.right = node
       // if right is not null recur until
       // null is found
-      else this.insertNode(node.right, newNode)
+      else this.insertNode(rootNode.right, node)
     }
   }
 
-  remove(data) {
-    this.removeNode(this.root, data)
+  remove(data: T) {
+    if (this.root) this.removeNode(this.root, data)
   }
 
   /**
@@ -87,67 +81,64 @@ export class BinarySearchTree {
    *    In order to delete a node with two children we find the node with
    *    minimum value in its right subtree and replace this node with the minimum valued node
    *    and remove the minimum valued node from the tree
-   * @param {Node} node
-   * @param {any} key
-   * @returns {Node}
    */
-  removeNode(node, key) {
+  removeNode(rootNode: Node<T> | null, data: T) {
     // if the root is null then tree is
     // empty
-    if (node === null) return null
-    // if data to be delete is less than
+    if (rootNode === null) return null
+    // if data to be deleted is less than
     // roots data then move to left subtree
-    else if (key < node.data) {
-      node.left = this.removeNode(node.left, key)
+    else if (data < rootNode.data) {
+      rootNode.left = this.removeNode(rootNode.left, data)
 
-      return node
+      return rootNode
     }
 
-    // if data to be delete is greater than
+    // if data to be deleted is greater than
     // roots data then move to right subtree
-    else if (key > node.data) {
-      node.right = this.removeNode(node.right, key)
+    else if (data > rootNode.data) {
+      rootNode.right = this.removeNode(rootNode.right, data)
 
-      return node
+      return rootNode
     }
 
     // if data is similar to the root's data
     // then delete this node
     else {
       // deleting node with no children
-      if (node.left === null && node.right === null) {
-        node = null
+      if (rootNode.left === null && rootNode.right === null) {
+        rootNode = null
 
-        return node
+        return rootNode
       }
 
-      // deleting node with one children
-      if (node.left === null) {
-        node = node.right
+      // deleting node with one child
+      if (rootNode.left === null) {
+        rootNode = rootNode.right
 
-        return node
-      } else if (node.right === null) {
-        node = node.left
+        return rootNode
+      } else if (rootNode.right === null) {
+        rootNode = rootNode.left
 
-        return node
+        return rootNode
       }
 
       // Deleting node with two children
       // minimum node of the right subtree
       // is stored in aux
-      const aux = this.findMinNode(node.right)
-      node.data = aux.data
+      const aux = this.findMinNode(rootNode.right)
+      rootNode.data = aux.data
 
-      node.right = this.removeNode(node.right, aux.data)
+      rootNode.right = this.removeNode(rootNode.right, aux.data)
 
-      return node
+      return rootNode
     }
   }
 
   // Helper function
   // finds the minimum node in tree
   // searching starts from given node
-  findMinNode(node) {
+  findMinNode(node: Node<T>): Node<T> {
     // if left of a node is null
     // then it must be minimum node
     if (node.left === null) return node
@@ -155,11 +146,10 @@ export class BinarySearchTree {
   }
 
   /**
-   * Traverse the left subtree i.e perform inorder on left subtreeVisit
-   * the rootTraverse the right subtree i.e perform inorder on right subtree
-   * @param {Node} node
+   * Traverse the left subtree i.e. perform inorder on left subtreeVisit
+   * the rootTraverse the right subtree i.e. perform inorder on right subtree
    */
-  inorder(node) {
+  inorder(node: Node<T> | null) {
     if (node !== null) {
       this.inorder(node.left)
       this.logger.log(node.data)
@@ -170,9 +160,8 @@ export class BinarySearchTree {
   /**
    * Visit the rootTraverse the left subtree i.e perform preorder on left
    * subtreeTraverse the right subtree i.e perform preorder on right subtree
-   * @param {Node} node
    */
-  preorder(node) {
+  preorder(node: Node<T> | null) {
     if (node !== null) {
       this.logger.log(node.data)
       this.preorder(node.left)
@@ -183,9 +172,8 @@ export class BinarySearchTree {
   /**
    * Traverse the left subtree i.e perform postorder on left subtreeTraverse
    * the right subtree i.e perform postorder on right subtreeVisit the root
-   * @param {Node} node
    */
-  postorder(node) {
+  postorder(node: Node<T> | null) {
     if (node !== null) {
       this.postorder(node.left)
       this.postorder(node.right)
@@ -193,19 +181,11 @@ export class BinarySearchTree {
     }
   }
 
-  /**
-   * @returns {Node}
-   */
   getRootNode() {
     return this.root
   }
 
-  /**
-   * @param {Node} node
-   * @param {any} data
-   * @return {null|Node}
-   */
-  search(node, data) {
+  search(node: Node<T> | null, data: T): Node<T> | null {
     if (node === null) return null
     if (data < node.data) return this.search(node.left, data)
     if (data > node.data) return this.search(node.right, data)
