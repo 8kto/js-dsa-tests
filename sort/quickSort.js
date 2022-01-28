@@ -1,4 +1,4 @@
-function quickSortLists (array) {
+export function quickSortLists(array) {
   if (array.length <= 1) {
     return array
   }
@@ -11,10 +11,10 @@ function quickSortLists (array) {
     array[i] < pivot ? left.push(array[i]) : right.push(array[i])
   }
 
-  return quickSort(left).concat(pivot).concat(quickSort(right))
+  return quickSortLists(left).concat(pivot).concat(quickSortLists(right))
 }
 
-function quickSortF (arr) {
+export function quickSortF(arr) {
   // Base case
   if (!arr.length) return []
 
@@ -38,8 +38,4 @@ function quickSortF (arr) {
   // array. These results are all connected using concat,
   // and we get our sorted array.
   return quickSortF(left).concat(head, quickSortF(right))
-}
-
-module.exports = {
-  quickSortF, quickSortLists,
 }

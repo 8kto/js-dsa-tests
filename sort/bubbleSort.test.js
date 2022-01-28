@@ -1,4 +1,4 @@
-const bubbleSort = (arr) => {
+const bubbleSort = arr => {
   let isSorted
 
   while (!isSorted) {
@@ -21,14 +21,14 @@ describe('bubble sort', () => {
   })
 
   it('sorts valid input', () => {
-    expect(
-      bubbleSort([2, -1, 1000, 0, 14004, 0, -25, 2]),
-    ).
-      toEqual([-25, -1, 0, 0, 2, 2, 1000, 14004])
+    expect(bubbleSort([2, -1, 1000, 0, 14004, 0, -25, 2])).toEqual([
+      -25, -1, 0, 0, 2, 2, 1000, 14004,
+    ])
   })
 
   it('handles sorted arrays', () => {
-    expect(bubbleSort([-10, -1, 0, 0.5, 1, 10])).
-      toEqual([-10, -1, 0, 0.5, 1, 10])
+    expect(bubbleSort([-10, -1, 0, 0.5, 1, 10])).toEqual([
+      -10, -1, 0, 0.5, 1, 10,
+    ])
   })
 })
