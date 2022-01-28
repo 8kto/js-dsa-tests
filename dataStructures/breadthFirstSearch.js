@@ -1,4 +1,9 @@
 /**
+ * Breadth-First Search checks all of the vertices adjacent to a given vertex
+ * before checking the vertices adjacent to those vertices.
+ * Depth-First Search, on the other hand, checks all of the vertices
+ * on a path and then backtracks.
+ *
  * @link https://levelup.gitconnected.com/finding-the-shortest-path-in-javascript-pt-1-breadth-first-search-67ae4653dbec
  */
 export const breadthFirstSearch = (tree, rootNode, searchValue) => {
