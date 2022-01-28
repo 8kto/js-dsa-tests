@@ -72,19 +72,35 @@ describe('Shortest Path Graph Traversal', () => {
 
   describe('BFS returns path', () => {
     it('returns false for unknown vertex', () => {
-      expect(graph.bfsEdges('X')).toEqual(false)
+      expect(graph.bfs('X')).toEqual(false)
     })
 
-    it('simple search', () => {
-      expect(graph.bfsEdges('G')).toEqual({
-        'A': 0,
-        'B': 1,
-        'C': 1,
-        'D': 1,
-        'E': 2,
-        'F': 2,
-        'G': 3,
-      })
+    it('shortest path search A-G', () => {
+      const { distance, path } = graph.bfs('G') || {}
+
+      expect(distance).toEqual(3)
+      expect(path).toEqual('A-D-F-G')
+    })
+
+    it('shortest path search A-E', () => {
+      const { distance, path } = graph.bfs('E') || {}
+
+      expect(distance).toEqual(2)
+      expect(path).toEqual('A-C-E')
+    })
+
+    it('shortest path search from vertex B-F', () => {
+      const { distance, path } = graph.bfs('F', 'B') || {}
+
+      expect(distance).toEqual(2)
+      expect(path).toEqual('B-D-F')
+    })
+
+    it('shortest path search from vertex G-E', () => {
+      const { distance, path } = graph.bfs('G', 'E') || {}
+
+      expect(distance).toEqual(4)
+      expect(path).toEqual('E-C-D-F-G')
     })
   })
 })

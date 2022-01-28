@@ -4,24 +4,27 @@
  */
 export type Vertex = string
 
-export interface IGraph {
-  // eslint-disable-next-line no-unused-vars
-  addVertex(v: Vertex): void
-  // eslint-disable-next-line no-unused-vars
-  addEdge(v: Vertex, w: Vertex): void
-  // eslint-disable-next-line no-unused-vars
-  bfs(goal: Vertex, root?: Vertex): unknown | boolean
-  // eslint-disable-next-line no-unused-vars
-  bfsEdges(goal: Vertex, root?: Vertex): unknown | boolean
+/* eslint-disable no-unused-vars */
 
+export interface IGraph {
+  // Generic graph methods
+  addVertex(v: Vertex): void
+  addEdge(v: Vertex, w: Vertex): void
   getVertices(): Vertex[]
   getAdjacent(): Record<Vertex, Vertex[]>
   getEdges(): number
+
+  // The goal of this file is to master this method
+  bfs(goal: Vertex, root?: Vertex): { distance: number; path: string } | false
+
+  // This is an intermediate method, which logic can be used in solving problems as well
+  bfsEdges(goal: Vertex, root?: Vertex): Record<Vertex, number> | false
 }
+/* eslint-enable no-unused-vars */
 
 export class Graph implements IGraph {
-  private vertices: Vertex[]
-  private adjacent: Record<Vertex, Vertex[]>
+  private readonly vertices: Vertex[]
+  private readonly adjacent: Record<Vertex, Vertex[]>
   private edges: number
 
   constructor() {
@@ -67,6 +70,8 @@ export class Graph implements IGraph {
       const vertex = queue.shift() as Vertex
 
       if (vertex === goal) return edges
+      // A simple distance to the goal can be returned as:
+      //if (vertex === goal) return edges[goal]
 
       for (let i = 0; i < this.adjacent[vertex].length; i++) {
         const adj = this.adjacent[vertex][i]
@@ -82,6 +87,17 @@ export class Graph implements IGraph {
     return false
   }
 
+  buildPath(goal: Vertex, predecessors: Record<Vertex, Vertex | null>): string {
+    const stack = [goal]
+
+    let u: Vertex | null = goal
+    while ((u = predecessors[u])) {
+      stack.push(u)
+    }
+
+    return stack.reverse().join('-')
+  }
+
   bfs(goal: Vertex, root: Vertex = this.vertices[0]) {
     const queue: Vertex[] = []
     queue.push(root)
@@ -92,10 +108,18 @@ export class Graph implements IGraph {
     const edges: Record<Vertex, number> = {}
     edges[root] = 0
 
+    const predecessors: Record<Vertex, Vertex | null> = {}
+    predecessors[root] = null
+
     while (queue.length) {
       const vertex = queue.shift() as Vertex
 
-      if (vertex === goal) return edges
+      if (vertex === goal) {
+        return {
+          distance: edges[goal],
+          path: this.buildPath(goal, predecessors),
+        }
+      }
 
       for (let i = 0; i < this.adjacent[vertex].length; i++) {
         const adj = this.adjacent[vertex][i]
@@ -104,6 +128,7 @@ export class Graph implements IGraph {
           visited[adj] = true
           queue.push(adj)
           edges[adj] = edges[vertex] + 1
+          predecessors[adj] = vertex
         }
       }
     }
