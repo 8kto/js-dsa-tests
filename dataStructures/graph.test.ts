@@ -1,6 +1,4 @@
-// import {Graph, GraphNode} from './graph'
-
-// import {Graph, GraphNode as GraphNodeSrc} from './graph'
+//import {Graph, GraphNode} from './graph'
 
 export class GraphNode<T = unknown> {
   value: T
@@ -59,6 +57,7 @@ export class Graph<T> {
     if (node) {
       for (const n of this.nodes.values()) {
         n.removeAdjacent(node)
+        node.removeAdjacent(n)
       }
     }
 
@@ -93,6 +92,38 @@ export class Graph<T> {
     }
 
     return [srcVertex, targetVertex]
+  }
+
+  *bfs(root: GraphNode){
+    const queue = []
+    const visited = new Map()
+
+    queue.push(root)
+    while(queue.length){
+      const node = queue.shift()
+
+      if (!visited.has(node)) {
+        visited.set(node, true)
+        yield node
+
+        node.getAdjacents().forEach(adj => queue.push(adj))
+      }
+    }
+  }
+
+  *dfs(root: GraphNode){
+    const stack = [root]
+    const visited = new Map()
+
+    while (stack.length){
+      const node = stack.pop()
+      if (!visited.has(node)){
+        visited.set(node, true)
+        yield node
+
+        node.getAdjacents().forEach(adj => stack.push(adj))
+      }
+    }
   }
 }
 
@@ -166,7 +197,7 @@ describe('Graph', () => {
   })
 
   // TODO find out whether needed or not
-  xit('removes adjacents for removed Vertex', () => {
+  it('removes adjacents for removed Vertex', () => {
     const graph = new Graph<number>(Graph.UNDIRECTED)
 
     const v1 = graph.addVertex(10)
@@ -208,7 +239,7 @@ describe('Graph', () => {
   })
 
 
-  describe.skip('search', () => {
+  describe('search', () => {
     let first: GraphNode<number>, graph: Graph<number>
 
     beforeEach(() => {

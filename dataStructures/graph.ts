@@ -74,6 +74,7 @@ export class Graph<T = unknown> {
     if (current) {
       for (const node of this.nodes.values()) {
         node.removeAdjacent(current)
+        current.removeAdjacent(node)
       }
     }
 
