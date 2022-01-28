@@ -1,17 +1,15 @@
-const factorialNaive = (n) => {
-    return n <= 1 ? 1 : factorial(n - 1) * n
+export const factorialNaive = n => {
+  return n <= 1 ? 1 : factorialNaive(n - 1) * n
 }
 
-const factorialMemo = (n, cache = []) => {
-    if (n <= 1) {
-      return 1
-    }
+export const factorialMemo = (n, cache = []) => {
+  if (n <= 1) {
+    return 1
+  }
 
-    if (!cache[n]) {
-      cache[n] = n * factorial(n - 1, cache)
-    }
+  if (!cache[n]) {
+    cache[n] = n * factorialMemo(n - 1, cache)
+  }
 
-    return cache[n]
+  return cache[n]
 }
-
-module.exports = { factorial, factorialMemo }
