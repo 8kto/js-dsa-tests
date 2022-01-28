@@ -14,7 +14,7 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "transform": {
-      "^.+\\.js$": "babel-jest"
+      "^.+\\.[jt]s$": "babel-jest"
     },
     "globals": {
       "ts-jest": {
@@ -41,9 +41,7 @@
     "ts-jest": "^27.1.3",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.5"
-  },
-  "dependencies": {
+    "typescript": "^4.5.5",
     "core-js": "2"
   }
 }

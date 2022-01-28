@@ -50,7 +50,7 @@ module.exports = {
         patterns: ['../*'],
       },
     ],
-    'no-console': 'error',
+    'no-console': 'off',
     'no-unused-vars': 'warn',
     'no-shadow': 'off',
     'import/newline-after-import': 'error',
