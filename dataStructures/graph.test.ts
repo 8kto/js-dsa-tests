@@ -45,7 +45,10 @@ export class Graph<T> {
   }
 
   addVertex(value: T): GraphNode<T> {
-    if (this.nodes.has(value)) return this.nodes.get(value)
+    if (this.nodes.has(value)) {
+      return this.nodes.get(value) as GraphNode<T>
+    }
+
     const node = new GraphNode<T>(value)
     this.nodes.set(value, node)
 
@@ -95,12 +98,12 @@ export class Graph<T> {
   }
 
   *bfs(root: GraphNode) {
-    const queue = []
+    const queue: GraphNode[] = []
     const visited = new Map()
 
     queue.push(root)
     while (queue.length) {
-      const node = queue.shift()
+      const node = queue.shift() as GraphNode
 
       if (!visited.has(node)) {
         visited.set(node, true)
@@ -116,7 +119,7 @@ export class Graph<T> {
     const visited = new Map()
 
     while (stack.length) {
-      const node = stack.pop()
+      const node = stack.pop() as GraphNode
       if (!visited.has(node)) {
         visited.set(node, true)
         yield node
@@ -258,10 +261,10 @@ describe('Graph', () => {
     it('bfs', () => {
       const bfsFromFirst = graph.bfs(first)
 
-      expect(bfsFromFirst.next().value.value).toBe(1)
-      expect(bfsFromFirst.next().value.value).toBe(2)
-      expect(bfsFromFirst.next().value.value).toBe(3)
-      expect(bfsFromFirst.next().value.value).toBe(4)
+      const visitedOrder = Array.from(bfsFromFirst)
+      const values = visitedOrder.map(node => node.value)
+
+      expect(values).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     })
 
     it('dfs', () => {
