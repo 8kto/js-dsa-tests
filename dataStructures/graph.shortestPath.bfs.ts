@@ -121,16 +121,14 @@ export class Graph implements IGraph {
         }
       }
 
-      for (let i = 0; i < this.adjacent[vertex].length; i++) {
-        const adj = this.adjacent[vertex][i]
-
+      this.adjacent[vertex].forEach(adj => {
         if (!visited[adj]) {
           visited[adj] = true
           queue.push(adj)
           edges[adj] = edges[vertex] + 1
           predecessors[adj] = vertex
         }
-      }
+      })
     }
 
     return false
