@@ -28,7 +28,7 @@ export class GraphNode<T = unknown> {
   }
 }
 
-export class Graph<T> {
+export class Graph<T extends string | number = string> {
   static UNDIRECTED = Symbol('undirected graph')
   static DIRECTED = Symbol('directed graph')
 
@@ -127,6 +127,56 @@ export class Graph<T> {
         node.getAdjacents().forEach(adj => stack.push(adj))
       }
     }
+  }
+
+  buildPath(goal: T, pred: Record<T, T | null>): string {
+    const stack = [goal]
+    let u: T | null = goal
+
+    while ((u = pred[u])) {
+      stack.push(u)
+    }
+
+    return stack.reverse().join('-')
+  }
+
+  bfsShortest(goal: T, root: T) {
+    const queue: T[] = []
+    const visited: Record<T, boolean> = {
+      [root]: true,
+    }
+    const edges: Record<T, number> = {}
+    const predecestors: Record<T, T | null> = {}
+
+    queue.push(root)
+    visited[root] = true
+    edges[root] = 0
+    predecestors[root] = null
+
+    while (queue.length) {
+      const v = queue.shift() as T
+
+      if (v === goal) {
+        return {
+          distance: edges[goal],
+          path: this.buildPath(goal, predecestors),
+        }
+      }
+
+      const vertex = this.nodes.get(v)
+      if (!vertex) return
+
+      vertex.getAdjacents().forEach(({ value }) => {
+        if (!visited[value]) {
+          queue.push(value)
+          visited[value] = true
+          edges[value] = edges[v] + 1
+          predecestors[value] = v
+        }
+      })
+    }
+
+    return false
   }
 }
 
@@ -273,6 +323,59 @@ describe('Graph', () => {
       const values = visitedOrder.map(node => node.value)
 
       expect(values).toEqual([1, 4, 8, 3, 7, 6, 10, 2, 5, 9])
+    })
+  })
+
+  describe('BFS returns path', () => {
+    const graph = new Graph<string>()
+    graph.addVertex('A')
+    graph.addVertex('B')
+    graph.addVertex('C')
+    graph.addVertex('D')
+    graph.addVertex('E')
+    graph.addVertex('F')
+    graph.addVertex('G')
+
+    graph.addEdge('A', 'B')
+    graph.addEdge('A', 'C')
+    graph.addEdge('A', 'D')
+    graph.addEdge('B', 'C')
+    graph.addEdge('B', 'D')
+    graph.addEdge('C', 'D')
+    graph.addEdge('C', 'E')
+    graph.addEdge('D', 'F')
+    graph.addEdge('F', 'G')
+
+    it('returns false for unknown vertex', () => {
+      expect(graph.bfsShortest('X', 'A')).toEqual(false)
+    })
+
+    it('shortest path search A-G', () => {
+      const { distance, path } = graph.bfsShortest('G', 'A') || {}
+
+      expect(distance).toEqual(3)
+      expect(path).toEqual('A-D-F-G')
+    })
+
+    it('shortest path search A-E', () => {
+      const { distance, path } = graph.bfsShortest('E', 'A') || {}
+
+      expect(distance).toEqual(2)
+      expect(path).toEqual('A-C-E')
+    })
+
+    it('shortest path search from vertex B-F', () => {
+      const { distance, path } = graph.bfsShortest('F', 'B') || {}
+
+      expect(distance).toEqual(2)
+      expect(path).toEqual('B-D-F')
+    })
+
+    it('shortest path search from vertex G-E', () => {
+      const { distance, path } = graph.bfsShortest('G', 'E') || {}
+
+      expect(distance).toEqual(4)
+      expect(path).toEqual('E-C-D-F-G')
     })
   })
 })
