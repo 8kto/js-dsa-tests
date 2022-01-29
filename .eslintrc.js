@@ -17,9 +17,13 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      node: {
-        paths: [path.resolve(__dirname, '.')],
+      'node': {
+        'paths': [path.resolve(__dirname, '.')],
+        'extensions': [".js", ".jsx", ".ts", ".tsx"]
       },
+      'jest': {
+        "jestConfigFile": "./jest.conf.json"
+      }
     },
   },
   'overrides': [

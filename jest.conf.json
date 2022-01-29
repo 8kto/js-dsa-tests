@@ -1,0 +1,12 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "transform": {
+    "^.+\\.[jt]s$": "babel-jest"
+  },
+  "globals": {
+    "ts-jest": {
+      "diagnostics": false
+    }
+  }
+}
