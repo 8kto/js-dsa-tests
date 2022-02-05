@@ -32,8 +32,8 @@ export class Graph<T extends string | number = string> {
   static UNDIRECTED = Symbol('undirected graph')
   static DIRECTED = Symbol('directed graph')
 
-  private direction
-  private nodes: Map<T, GraphNode<T>>
+  private readonly direction
+  private readonly nodes: Map<T, GraphNode<T>>
 
   constructor(direction = Graph.UNDIRECTED) {
     this.direction = direction
@@ -129,29 +129,27 @@ export class Graph<T extends string | number = string> {
     }
   }
 
-  buildPath(goal: T, pred: Record<T, T | null>): string {
-    const stack = [goal]
+  buildPath(goal: T, predecessors: Record<T, T | null>) {
+    const st = [goal]
     let u: T | null = goal
 
-    while ((u = pred[u])) {
-      stack.push(u)
+    while ((u = predecessors[u])) {
+      st.unshift(u)
     }
 
-    return stack.reverse().join('-')
+    return st.join('-')
   }
 
   bfsShortest(goal: T, root: T) {
     const queue: T[] = []
-    const visited: Record<T, boolean> = {
-      [root]: true,
-    }
-    const edges: Record<T, number> = {}
-    const predecestors: Record<T, T | null> = {}
+    const visited = {} as Record<T, boolean>
+    const edges = {} as Record<T, number>
+    const predecessors = {} as Record<T, T | null>
 
     queue.push(root)
     visited[root] = true
     edges[root] = 0
-    predecestors[root] = null
+    predecessors[root] = null
 
     while (queue.length) {
       const v = queue.shift() as T
@@ -159,19 +157,19 @@ export class Graph<T extends string | number = string> {
       if (v === goal) {
         return {
           distance: edges[goal],
-          path: this.buildPath(goal, predecestors),
+          path: this.buildPath(goal, predecessors),
         }
       }
 
-      const vertex = this.nodes.get(v)
-      if (!vertex) return
+      const vertex = this.nodes.get(v) as GraphNode<T>
+      const adjs = vertex.getAdjacents()
 
-      vertex.getAdjacents().forEach(({ value }) => {
+      adjs.forEach(({ value }) => {
         if (!visited[value]) {
           queue.push(value)
           visited[value] = true
           edges[value] = edges[v] + 1
-          predecestors[value] = v
+          predecessors[value] = v
         }
       })
     }
@@ -249,7 +247,6 @@ describe('Graph', () => {
     expect(graph.getNodes().size).toEqual(0)
   })
 
-  // TODO find out whether needed or not
   it('removes adjacents for removed Vertex', () => {
     const graph = new Graph<number>(Graph.UNDIRECTED)
 
@@ -376,6 +373,54 @@ describe('Graph', () => {
 
       expect(distance).toEqual(4)
       expect(path).toEqual('E-C-D-F-G')
+    })
+
+    describe('shortest path over phone numpad', () => {
+      const graph = new Graph()
+      /*
+        7 8 9
+        4 5 6
+        1 2 3
+       */
+      const vertices = {
+        1: [2, 4, 5],
+        2: [1, 4, 5, 6, 3],
+        3: [2, 5, 6],
+        4: [1, 2, 5, 8, 7],
+        5: [4, 1, 2, 3, 6, 9, 8, 7],
+        6: [3, 2, 5, 8, 9],
+        7: [4, 5, 8],
+        8: [7, 4, 5, 6, 9],
+        9: [5, 6, 8],
+      }
+      Object.entries(vertices).forEach(([vertex, adjs]) => {
+        adjs.forEach(adj => {
+          graph.addVertex(`${vertex}`)
+          graph.addVertex(`${adj}`)
+          graph.addEdge(`${vertex}`, `${adj}`)
+        })
+      })
+
+      it('finds the shortest path 1', () => {
+        expect(graph.bfsShortest('3', '7')).toEqual({
+          'distance': 2,
+          'path': '7-5-3',
+        })
+      })
+
+      it('finds the shortest path 2', () => {
+        expect(graph.bfsShortest('2', '1')).toEqual({
+          'distance': 1,
+          'path': '1-2',
+        })
+      })
+
+      it('finds the shortest path 3', () => {
+        expect(graph.bfsShortest('4', '3')).toEqual({
+          'distance': 2,
+          'path': '3-2-4',
+        })
+      })
     })
   })
 })
