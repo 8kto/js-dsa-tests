@@ -5,9 +5,6 @@ describe('BinarySearchTree', () => {
 
   beforeEach(() => {
     tree = new BinarySearchTree()
-  })
-
-  it('adds nodes', () => {
     tree.insert(15)
     tree.insert(25)
     tree.insert(10)
@@ -26,33 +23,15 @@ describe('BinarySearchTree', () => {
     //      7  13 22  27
     //     / \    /
     //    5   9  17
+  })
 
+  it('adds nodes', () => {
     expect(tree.logger.toString()).toEqual('')
     tree.inorder(tree.getRootNode())
     expect(tree.logger.toString()).toEqual('5 7 9 10 13 15 17 22 25 27')
   })
 
   it('removes nodes', () => {
-    let root
-    tree.insert(15)
-    tree.insert(25)
-    tree.insert(10)
-    tree.insert(7)
-    tree.insert(22)
-    tree.insert(17)
-    tree.insert(13)
-    tree.insert(5)
-    tree.insert(9)
-    tree.insert(27)
-
-    //          15
-    //         /  \
-    //        10   25
-    //       / \   / \
-    //      7  13 22  27
-    //     / \    /
-    //    5   9  17
-
     expect(tree.logger.toString()).toEqual('')
 
     // Removing node with no children
@@ -65,7 +44,7 @@ describe('BinarySearchTree', () => {
     //      7  13 22  27
     //       \    /
     //        9  17
-    root = tree.getRootNode()
+    let root = tree.getRootNode()
 
     tree.logger.clear()
     tree.inorder(root)
@@ -109,5 +88,19 @@ describe('BinarySearchTree', () => {
     tree.logger.clear()
     tree.preorder(root)
     expect(tree.logger.toString()).toEqual('17 10 9 13 25 22 27')
+  })
+
+  it('searches nodes', () => {
+    expect(tree.findMinNode(tree.getRootNode())).toEqual({
+      'data': 5,
+      'left': null,
+      'right': null,
+    })
+
+    expect(tree.findMinNode(tree.getRootNode().right)).toEqual({
+      'data': 17,
+      'left': null,
+      'right': null,
+    })
   })
 })
