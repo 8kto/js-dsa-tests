@@ -4,42 +4,26 @@ import { Logger, Node } from './binaryTree'
 
 export class BinarySearchTree<T> {
   private root: Node<T> | null
-  private logger: Logger
+  public logger: Logger
 
   constructor() {
     this.root = null
     this.logger = new Logger()
   }
 
-  insert(data: T) {
-    const node = new Node<T>(data)
-
-    if (!this.root) {
-      this.root = node
-    } else {
-      this.insertNode(this.root, node)
-    }
+  insert(val: T) {
+    const node = new Node(val)
+    if (!this.root) this.root = node
+    else this.insertNode(this.root, node)
   }
 
-  insertNode(rootNode: Node<T>, node: Node<T>) {
-    // if the data is less than the rootNode
-    // data move left of the tree
-    if (node.data < rootNode.data) {
-      // if left is null insert rootNode here
-      if (rootNode.left === null) rootNode.left = node
-        // if left is not null recur until
-      // null is found
-      else this.insertNode(rootNode.left, node)
-    }
-
-      // if the data is more than the rootNode
-    // data move right of the tree
-    else {
-      // if right is null insert rootNode here
-      if (rootNode.right === null) rootNode.right = node
-        // if right is not null recur until
-      // null is found
-      else this.insertNode(rootNode.right, node)
+  insertNode(root: Node<T>, node: Node<T>) {
+    if (node.data < root.data) {
+      if (root.left === null) root.left = node
+      else this.insertNode(root.left, node)
+    } else {
+      if (root.right === null) root.right = node
+      else this.insertNode(root.right, node)
     }
   }
 
@@ -60,66 +44,89 @@ export class BinarySearchTree<T> {
    *    minimum value in its right subtree and replace this node with the minimum valued node
    *    and remove the minimum valued node from the tree
    */
-  removeNode(rootNode: Node<T> | null, data: T) {
-    // if the root is null then tree is
-    // empty
-    if (rootNode === null) return null
-      // if data to be deleted is less than
-    // roots data then move to left subtree
-    else if (data < rootNode.data) {
-      rootNode.left = this.removeNode(rootNode.left, data)
+  removeNode(root: Node<T> | null, data: T): Node<T> | null {
+    if (root === null) return null
 
-      return rootNode
-    }
+    if (root.data > data) {
+      // remove left
+      root.left = this.removeNode(root.left, data)
 
-      // if data to be deleted is greater than
-    // roots data then move to right subtree
-    else if (data > rootNode.data) {
-      rootNode.right = this.removeNode(rootNode.right, data)
+      return root
+    } else if (root.data < data) {
+      // remove right
+      root.right = this.removeNode(root.right, data)
 
-      return rootNode
-    }
-
-      // if data is similar to the root's data
-    // then delete this node
-    else {
-      // deleting node with no children
-      if (rootNode.left === null && rootNode.right === null) {
-        rootNode = null
-
-        return rootNode
+      return root
+    } else {
+      // delete node itself
+      // no children
+      if (root.left === null && root.right === null) {
+        return null
       }
 
-      // deleting node with one child
-      if (rootNode.left === null) {
-        rootNode = rootNode.right
+      // right child
+      if (root.left === null) {
+        root = root.right
 
-        return rootNode
-      } else if (rootNode.right === null) {
-        rootNode = rootNode.left
-
-        return rootNode
+        return root
       }
 
-      // Deleting node with two children
-      // minimum node of the right subtree
-      // is stored in aux
-      const aux = this.findMinNode(rootNode.right)
-      rootNode.data = aux.data
+      // left child
+      if (root.right === null) {
+        root = root.left
 
-      rootNode.right = this.removeNode(rootNode.right, aux.data)
+        return root
+      }
 
-      return rootNode
+      // two children
+      const aux = this.findMinNode(root.right)
+      root.data = aux.data
+      root.right = this.removeNode(root.right, aux.data)
+
+      return root
     }
   }
 
+  getRootNode() {
+    return this.root
+  }
+
+  findMinNode(node = this.root): Node<T> | null {
+    if (node?.left === null) return node
+
+    return this.findMinNode(node?.left)
+  }
+
+  preorder(node: Node<T> | null) {
+    if (node) {
+      this.logger.log(node.data)
+      this.preorder(node.left)
+      this.preorder(node.right)
+    }
+  }
+
+  inorder(node: Node<T> | null) {
+    if (node) {
+      this.inorder(node.left)
+      this.logger.log(node.data)
+      this.inorder(node.right)
+    }
+  }
+
+  postorder(node: Node<T> | null) {
+    if (node) {
+      this.postorder(node.left)
+      this.postorder(node.right)
+      this.logger.log(node.data)
+    }
+  }
 }
 
 describe('BinarySearchTree', () => {
-  let tree
+  let tree: BinarySearchTree<number>
 
   beforeEach(() => {
-    tree = new BinarySearchTree()
+    tree = new BinarySearchTree<number>()
     tree.insert(15)
     tree.insert(25)
     tree.insert(10)
@@ -183,7 +190,6 @@ describe('BinarySearchTree', () => {
 
     // Removing node with two children
     tree.remove(15)
-
     //          17
     //         /  \
     //        10   25
@@ -194,7 +200,7 @@ describe('BinarySearchTree', () => {
     tree.logger.clear()
     tree.inorder(root)
     expect(tree.logger.toString()).toEqual('9 10 13 17 22 25 27')
-    expect(tree.getRootNode().data).toEqual(17)
+    expect(tree.getRootNode()?.data).toEqual(17)
 
     tree.logger.clear()
     tree.postorder(root)
@@ -212,7 +218,7 @@ describe('BinarySearchTree', () => {
       'right': null,
     })
 
-    expect(tree.findMinNode(tree.getRootNode().right)).toEqual({
+    expect(tree.findMinNode(tree.getRootNode()?.right)).toEqual({
       'data': 17,
       'left': null,
       'right': null,

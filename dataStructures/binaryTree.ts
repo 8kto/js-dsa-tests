@@ -1,3 +1,9 @@
+/**
+ * Binary Search Tree
+ *
+ * @link https://www.geeksforgeeks.org/implementation-binary-search-tree-javascript/
+ */
+
 export class Node<T = unknown> {
   data: T
   left: Node<T> | null = null
