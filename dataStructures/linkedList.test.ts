@@ -1,11 +1,9 @@
-type LinkedListItem = {
-  next: LinkedListItem | null
+export type LinkedListItem = {
   data: unknown
+  next: LinkedListItem | null
 }
 
-export const reverseLinkedList = (
-  list: LinkedListItem | null
-): LinkedListItem | null => {
+const reverseLinkedList = (list: LinkedListItem | null) => {
   let prev = null,
     cur = list,
     next = list
