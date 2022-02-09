@@ -35,6 +35,7 @@ module.exports = {
     },
   ],
   rules: {
+    'prefer-const': ['off'],
     'no-var': 'error',
     'import/no-extraneous-dependencies': 'error',
     'no-restricted-imports': [
