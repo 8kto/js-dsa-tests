@@ -1,3 +1,7 @@
+/**
+ * Time Complexity: O(n*log(log(n)))
+ * Auxiliary Space: O(n)
+ */
 export const findPrimes = (n: number) => {
   let p = 2
   const primes = Array(n).fill(true)
