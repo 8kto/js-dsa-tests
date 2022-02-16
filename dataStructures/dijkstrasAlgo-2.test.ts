@@ -108,7 +108,7 @@ describe('Dijkstra`s Algo', () => {
     expect(dijkstrasAlgo(graph, costs, parents)).toEqual('start-b-a-end')
   })
 
-  it.only('does find the shortest path 2', () => {
+  it('does find the shortest path 2', () => {
     const graph: Graph = {
       start: { a: 5, d: 2 },
       a: { b: 4, c: 2 },
