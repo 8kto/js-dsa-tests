@@ -18,7 +18,7 @@ export const selectionSort = (arr: number[]): number[] => {
     return smallestIndex
   }
 
-  for (let i = 0, max = arr.length; i < max; i++) {
+  while (arr.length) {
     const indexOfMinimal = findIndexOfMinimal(arr)
     sorted.push(arr[indexOfMinimal])
     arr.splice(indexOfMinimal, 1)
