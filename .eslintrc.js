@@ -38,6 +38,7 @@ module.exports = {
     'prefer-const': ['off'],
     'no-var': 'error',
     'import/no-extraneous-dependencies': 'error',
+    '@typescript-eslint/ban-ts-comment':'off',
     'no-restricted-imports': [
       'error',
       {
