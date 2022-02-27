@@ -80,7 +80,9 @@ export class BinarySearchTree<T> {
 
       // two children
       const aux = this.findMinNode(root.right)
+      // @ts-ignore
       root.data = aux.data
+      // @ts-ignore
       root.right = this.removeNode(root.right, aux.data)
 
       return root
