@@ -19,6 +19,7 @@ export const gcd = (a: number, b: number): number => {
   return gcd(b % a, a)
 }
 
+// todo: mutliple args
 describe('Greater Common Divisor: Basic Euclidean Algorithm', () => {
   it('test', () => {
     expect(gcd(30, 12)).toEqual(6)
