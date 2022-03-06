@@ -1,5 +1,5 @@
 const quickSort = arr => {
-  if (!arr.length) return []
+  if (arr.length < 2) return arr
 
   const [pivot, ...rest] = arr
   const left = rest.filter(e => e < pivot)

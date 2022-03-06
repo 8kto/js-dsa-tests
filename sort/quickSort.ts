@@ -1,4 +1,8 @@
-export function quickSortLists(array) {
+/**
+ * Mathematical analysis of quicksort shows that, on average, the algorithm takes O(n log n) comparisons to sort n items.
+ * In the worst case, it makes O(n^2) comparisons.
+ */
+export const quickSortLists = (array: number[]): number[] => {
   if (array.length <= 1) {
     return array
   }
@@ -14,7 +18,10 @@ export function quickSortLists(array) {
   return quickSortLists(left).concat(pivot).concat(quickSortLists(right))
 }
 
-export function quickSortF(arr) {
+/**
+ * More declarative/functional way from the Grokking algorithms book
+ */
+export const quickSortF = (arr: number[]): number[] => {
   // Base case
   if (!arr.length) return []
 
