@@ -19,11 +19,11 @@ module.exports = {
     'import/resolver': {
       'node': {
         'paths': [path.resolve(__dirname, '.')],
-        'extensions': [".js", ".jsx", ".ts", ".tsx"]
+        'extensions': ['.js', '.jsx', '.ts', '.tsx'],
       },
       'jest': {
-        "jestConfigFile": "./jest.conf.json"
-      }
+        'jestConfigFile': './jest.conf.json',
+      },
     },
   },
   'overrides': [
@@ -38,7 +38,7 @@ module.exports = {
     'prefer-const': ['off'],
     'no-var': 'error',
     'import/no-extraneous-dependencies': 'error',
-    '@typescript-eslint/ban-ts-comment':'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     'no-restricted-imports': [
       'error',
       {
