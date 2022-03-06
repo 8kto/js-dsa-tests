@@ -1,4 +1,4 @@
-const quickSort = arr => {
+const quickSort = (arr: number[]): number[] => {
   if (arr.length < 2) return arr
 
   const [pivot, ...rest] = arr
@@ -25,3 +25,5 @@ describe('quick sort', () => {
     ])
   })
 })
+
+export {}

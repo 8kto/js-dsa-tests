@@ -1,4 +1,4 @@
-const bubbleSort = arr => {
+const bubbleSort = (arr: number[]): number[] => {
   let isSorted
 
   while (!isSorted) {
@@ -32,3 +32,5 @@ describe('bubble sort', () => {
     ])
   })
 })
+
+export {}
