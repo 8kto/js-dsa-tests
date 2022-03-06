@@ -5,7 +5,7 @@
 This repository is about DSA _basic_ stuff and preparation for programming interviews:
 sorts, data structures, popular algorithms, and coding problems.
 
-I created it for myself, just to get a comfy platform for learning and training.
+I created it for myself, just to get a comfy setup for learning and training.
 
 
 ## How to train
@@ -24,7 +24,6 @@ yarn test
   ): it is the most basic and comfortable way to solve the coding problems.
 The link is referral (I will receive some points if you register).
 * [Hackerrank](https://www.hackerrank.com/): the platform has various preparation kits and a good browser code editor.
-Although it's a little annoying that there is no explanation of the approach to the solution, even if you solved it (but folks in the comments often provide it).
-* [LeetCode](https://leetcode.com/): provides explanations in a more detailed and comfy way.
+* [LeetCode](https://leetcode.com/): another good platform, quite similar to others (you need a premium account to unlock the official explanation to the solution).
 * **Grokking Algorithms** book by Aditya Bhargava: a perfect start for the beginners on DSA topic.
 
