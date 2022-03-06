@@ -17,14 +17,16 @@ Start   3    End
 
 type Graph = Record<string, Record<string, number>>
 
-const buildPath = (parents: Record<string, string | null>): string => {
-  const st = [parents.end]
-  let u: string | null = parents.end as string
+const buildPath = (
+  parents: Record<string, string | null>,
+  goal: string
+): string => {
+  const st = [goal]
+  let u: string | null = goal
 
   while ((u = parents[u])) {
     st.unshift(u)
   }
-  st.push('end')
 
   return st.join('-')
 }
@@ -50,36 +52,24 @@ const dijkstrasAlgo = (
     return res
   }
 
-  let node = findLowestCostNode(costs)
-
-  while (node) {
-    const cost: number = costs[node]
+  let node
+  while ((node = findLowestCostNode(costs))) {
+    const cost = costs[node]
     const neighbors = graph[node]
 
     for (let n in neighbors) {
-      console.log(node, 'neighbor:', n)
-
       let newCost = cost + neighbors[n]
-      console.log({ newCost, cost, n: neighbors[n] })
 
       if (costs[n] > newCost) {
         costs[n] = newCost
         parents[n] = node
-        console.log('updated for', n, { costs, parents })
       }
     }
 
     processed[node] = true
-    node = findLowestCostNode(costs)
   }
 
-  console.log({
-    parents,
-    costs,
-    path: buildPath(parents),
-  })
-
-  return buildPath(parents)
+  return buildPath(parents, 'end')
 }
 
 export {}
