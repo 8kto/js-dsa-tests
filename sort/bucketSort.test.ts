@@ -40,7 +40,6 @@ const bucketSort = (
   }
 
   buckets.forEach(b => b.sort(sort))
-  console.log(buckets.flat())
 
   return buckets.flat()
 }
