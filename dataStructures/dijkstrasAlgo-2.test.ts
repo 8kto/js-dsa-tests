@@ -38,7 +38,7 @@ const dijkstrasAlgo = (
   graph: Graph,
   root: keyof typeof graph,
   target: keyof typeof graph
-): string => {
+): string | null => {
   const costs: Record<string, number> = {}
   const parents: Record<string, string | null> = {}
   const processed: Record<string, boolean> = {}
@@ -82,13 +82,13 @@ const dijkstrasAlgo = (
     processed[node] = true
   }
 
-  return buildPath(parents, target)
+  return Number.isFinite(costs[target]) ? buildPath(parents, target) : null
 }
 
 export {}
 
 describe('Dijkstra`s Algo', () => {
-  it('does find the shortest path', () => {
+  it('finds the shortest path', () => {
     const graph: Graph = {
       start: { a: 6, b: 2 },
       a: { end: 1 },
@@ -99,7 +99,33 @@ describe('Dijkstra`s Algo', () => {
     expect(dijkstrasAlgo(graph, 'start', 'end')).toEqual('start-b-a-end')
   })
 
-  it('does find the shortest path 2', () => {
+  it('finds the shortest path for start and end nodes', () => {
+    const graph: Graph = {
+      start: { a: 6, b: 2 },
+      a: { end: 1 },
+      b: { a: 3, end: 5 },
+      end: {},
+    }
+
+    expect(dijkstrasAlgo(graph, 'b', 'end')).toEqual('b-a-end')
+    expect(dijkstrasAlgo(graph, 'a', 'end')).toEqual('a-end')
+  })
+
+  it('does not find the path when it is NA', () => {
+    const graph: Graph = {
+      start: { a: 6, b: 2 },
+      a: { end: 1 },
+      b: { a: 3, end: 5 },
+      end: {},
+    }
+
+    expect(dijkstrasAlgo(graph, 'a', 'b')).toEqual(null)
+    expect(dijkstrasAlgo(graph, 'b', 'start')).toEqual(null)
+    expect(dijkstrasAlgo(graph, 'end', 'start')).toEqual(null)
+    expect(dijkstrasAlgo(graph, 'a', 'start')).toEqual(null)
+  })
+
+  it('finds the shortest path 2', () => {
     const graph: Graph = {
       start: { a: 5, d: 2 },
       a: { b: 4, c: 2 },
