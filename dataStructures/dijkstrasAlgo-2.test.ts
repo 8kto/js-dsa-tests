@@ -17,9 +17,12 @@ Start   3    End
 
 type Graph = Record<string, Record<string, number>>
 
+/**
+ * Utils is similar to the BFS in graphs
+ */
 const buildPath = (
   parents: Record<string, string | null>,
-  goal: string
+  goal: keyof typeof parents
 ): string => {
   const st = [goal]
   let u: string | null = goal
@@ -33,11 +36,21 @@ const buildPath = (
 
 const dijkstrasAlgo = (
   graph: Graph,
-  costs: Record<string, number>,
-  parents: Record<string, string | null>
-) => {
-  const processed = {} as Record<string, boolean>
+  root: keyof typeof graph,
+  target: keyof typeof graph
+): string => {
+  const costs: Record<string, number> = {}
+  const parents: Record<string, string | null> = {}
+  const processed: Record<string, boolean> = {}
 
+  // Fill the costs and parents for those nodes that are adjacents to the root
+  const rootNeighbors = graph[root]
+  Object.keys(graph).forEach(node => {
+    costs[node] = rootNeighbors[node] ?? Infinity
+    parents[node] = rootNeighbors[node] ? root : null
+  })
+
+  // While there are non-visited nodes, find the minimal one
   const findLowestCostNode = (costs: Record<string, number>) => {
     let min = Infinity
     let res
@@ -69,7 +82,7 @@ const dijkstrasAlgo = (
     processed[node] = true
   }
 
-  return buildPath(parents, 'end')
+  return buildPath(parents, target)
 }
 
 export {}
@@ -83,19 +96,7 @@ describe('Dijkstra`s Algo', () => {
       end: {},
     }
 
-    const costs: Record<string, number> = {
-      a: 6,
-      b: 2,
-      end: Infinity,
-    }
-
-    const parents: Record<string, string | null> = {
-      a: 'start',
-      b: 'start',
-      end: null,
-    }
-
-    expect(dijkstrasAlgo(graph, costs, parents)).toEqual('start-b-a-end')
+    expect(dijkstrasAlgo(graph, 'start', 'end')).toEqual('start-b-a-end')
   })
 
   it('does find the shortest path 2', () => {
@@ -108,22 +109,6 @@ describe('Dijkstra`s Algo', () => {
       end: {},
     }
 
-    const costs: Record<string, number> = {
-      a: 5,
-      d: 2,
-      b: Infinity,
-      c: Infinity,
-      end: Infinity,
-    }
-
-    const parents: Record<string, string | null> = {
-      a: 'start',
-      d: 'start',
-      b: null,
-      c: null,
-      end: null,
-    }
-
-    expect(dijkstrasAlgo(graph, costs, parents)).toEqual('start-a-c-end')
+    expect(dijkstrasAlgo(graph, 'start', 'end')).toEqual('start-a-c-end')
   })
 })
