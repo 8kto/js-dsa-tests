@@ -1,4 +1,4 @@
-import { findShortestPath } from './dijkstrasAlgo'
+import { findShortestPath } from './graph.dijkstrasAlgo'
 
 const getGraph = () => ({
   start: { A: 5, B: 2 },
