@@ -22,13 +22,28 @@
 
 const bucketSort = (
   arr: number[],
-  // Default sort (JS engine will most likely use the quick sort for this),
-  // can be any appropriate algo
+  // Default sort can be any appropriate algo
   sort = (a: number, b: number) => a - b
 ): number[] => {
   const n = arr.length
-  // This line works when we have only floats in range of 0..1
-  // const buckets: number[][] = Array.from({ length: n }, () => [])
+  const buckets: number[][] = Array.from({ length: n }, () => [])
+
+  for (let i = 0; i < n; i++) {
+    const idx = Math.floor(arr[i] * n)
+    buckets[idx].push(arr[i])
+  }
+
+  buckets.forEach(b => b.sort(sort))
+
+  return buckets.flat()
+}
+
+const bucketSortIntegers = (
+  arr: number[],
+  // Default sort can be any appropriate algo
+  sort = (a: number, b: number) => a - b
+): number[] => {
+  const n = arr.length
   const buckets: number[][] = []
 
   for (let i = 0; i < n; i++) {
@@ -44,36 +59,80 @@ const bucketSort = (
   return buckets.flat()
 }
 
+/**
+ * @link https://www.geeksforgeeks.org/bucket-sort-to-sort-an-array-with-negative-numbers/
+ */
+const bucketSortNegative = (
+  arr: number[],
+  // Default sort can be any appropriate algo
+  sortAsc = (a: number, b: number) => a - b,
+  sortDesc = (a: number, b: number) => b - a
+): number[] => {
+  const n = arr.length
+  const bucketsPos: number[][] = []
+  const bucketsNeg: number[][] = []
+
+  for (let i = 0; i < n; i++) {
+    let idx = Math.floor(arr[i] * n)
+    let st: number[][]
+
+    if (idx >= 0) {
+      st = bucketsPos
+    } else {
+      st = bucketsNeg
+      idx *= -1
+    }
+
+    if (!st[idx]) st[idx] = []
+
+    st[idx].push(arr[i])
+  }
+
+  bucketsPos.forEach(b => b.sort(sortAsc))
+  bucketsNeg.forEach(b => b.sort(sortDesc))
+
+  return bucketsNeg.flat().reverse().concat(bucketsPos.flat())
+}
+
 describe('bucket sort', () => {
-  it('sorts floats', () => {
+  it('sorts range of floats', () => {
     expect(bucketSort([0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434])).toEqual([
       0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897,
     ])
   })
 
+  it('bucketSort handles sorted arrays', () => {
+    expect(bucketSort([0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897])).toEqual([
+      0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897,
+    ])
+  })
+
   it('sorts mixed input', () => {
-    expect(bucketSort([2, 1, 0.5, 33, 0.33, 1.23, 100.5])).toEqual([
+    expect(bucketSortIntegers([2, 1, 0.5, 33, 0.33, 1.23, 100.5])).toEqual([
       0.33, 0.5, 1, 1.23, 2, 33, 100.5,
     ])
   })
 
   it('sorts integers', () => {
-    expect(bucketSort([2, 1, 1000, 0, 14004, 0, 25, 2])).toEqual([
+    expect(bucketSortIntegers([2, 1, 1000, 0, 14004, 0, 25, 2])).toEqual([
       0, 0, 1, 2, 2, 25, 1000, 14004,
     ])
   })
 
-  // TODO support negative values
-  // https://www.geeksforgeeks.org/bucket-sort-to-sort-an-array-with-negative-numbers/
+  it('bucketSortIntegers handles sorted arrays', () => {
+    expect(bucketSortIntegers([0, 0, 1, 2, 2, 25, 1000, 14004])).toEqual([
+      0, 0, 1, 2, 2, 25, 1000, 14004,
+    ])
+  })
 
-  xit('sorts valid input', () => {
-    expect(bucketSort([2, -1, 1000, 0, 14004, 0, -25, 2])).toEqual([
+  it('sorts valid input', () => {
+    expect(bucketSortNegative([2, -1, 1000, 0, 14004, 0, -25, 2])).toEqual([
       -25, -1, 0, 0, 2, 2, 1000, 14004,
     ])
   })
 
-  xit('handles sorted arrays', () => {
-    expect(bucketSort([-10, -1, 0, 0.5, 1, 10])).toEqual([
+  it('bucketSortNegative handles sorted arrays', () => {
+    expect(bucketSortNegative([-10, -1, 0, 0.5, 1, 10])).toEqual([
       -10, -1, 0, 0.5, 1, 10,
     ])
   })
