@@ -21,6 +21,7 @@ describe('factorials', () => {
     expect(factorial(17)).toEqual(355687428096000)
   })
 
+  // TODO implement advanced algo: https://www.geeksforgeeks.org/factorial-large-number/
   xit('does hard job', () => {
     expect(factorial(200)).toEqual()
   })
