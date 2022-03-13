@@ -3,7 +3,7 @@
 ![build status](https://github.com/8kto/js-tests/actions/workflows/main.yml/badge.svg)
 
 
-¹ Well, mostly in TypeScript.
+¹ Well, in TypeScript.
 
 This repository is about DSA _basic_ stuff and preparation for programming interviews:
 sorts, data structures, popular algorithms, and coding problems.
