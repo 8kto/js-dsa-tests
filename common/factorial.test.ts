@@ -23,6 +23,6 @@ describe('factorials', () => {
 
   // TODO implement advanced algo: https://www.geeksforgeeks.org/factorial-large-number/
   xit('does hard job', () => {
-    expect(factorial(200)).toEqual()
+    expect(factorial(200)).toEqual(1)
   })
 })
