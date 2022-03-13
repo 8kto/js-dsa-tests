@@ -1,6 +1,6 @@
 # Data Structures and Algorhythms in JS¹: implementations with tests
 
-![build status](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![build status](https://github.com/8kto/js-tests/actions/workflows/main.yml/badge.svg)
 
 
 ¹ Well, mostly in TypeScript.
