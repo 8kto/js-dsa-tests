@@ -28,10 +28,14 @@ yarn test
 The link is referral (I will receive some points if you register).
 * [Hackerrank](https://www.hackerrank.com/): the platform has various preparation kits and a good browser code editor.
 * [LeetCode](https://leetcode.com/): another good platform, quite similar to others (you need a premium account to unlock the official explanation to the solution).
-* **Grokking Algorithms** book by Aditya Bhargava: a perfect start for the beginners on DSA topic.
 
 
 ### Read
 * [A way more advanced repo with DSA and CS stuff in Python](https://github.com/vinta/fuck-coding-interviews)
+* **Grokking Algorithms** book by Aditya Bhargava: a perfect start for the beginners on DSA topic.
+
+
+### Tools
+* [JavaScript Tutor](https://pythontutor.com/javascript.html#mode=edit) — great tool for visualizing JS code execution
 * [Big-O Cheat Sheet](https://www.bigocheatsheet.com/)
 * [Data Structure Visualizations](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
