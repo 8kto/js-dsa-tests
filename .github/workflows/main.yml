@@ -1,4 +1,4 @@
-name: Tests and linter
+name: Build, test and lint
 
 on:
   push:
@@ -20,5 +20,6 @@ jobs:
         with:
           node-version: '${{ steps.nvm.outputs.NVMRC }}'
       - run: yarn install
+      - run: yarn tsc
       - run: yarn lint
       - run: yarn test
