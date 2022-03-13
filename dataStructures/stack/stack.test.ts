@@ -1,30 +1,4 @@
-// const { Stack } = require('./stack')
-
-class Stack {
-  storage = []
-
-  push(value) {
-    this.storage.push(value)
-
-    return this
-  }
-
-  pop() {
-    return this.storage.pop() || null
-  }
-
-  size() {
-    return this.storage.length
-  }
-
-  empty() {
-    this.storage = []
-  }
-
-  top() {
-    return this.storage[this.storage.length - 1] || null
-  }
-}
+import { Stack } from './stack'
 
 describe('stack', () => {
   it('pushes and pops stuff', () => {

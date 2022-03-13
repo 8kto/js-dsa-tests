@@ -8,11 +8,11 @@
  push(a) – Inserts the element ‘a’ at the top of the stack – Time Complexity: O(1)
  pop() – Deletes the topmost element of the stack – Time Complexity: O(1)
  */
-export class Stack {
+export class Stack<T = unknown> {
   count = 0
-  storage = {}
+  storage: Record<string, T> = {}
 
-  push(value) {
+  push(value: T) {
     this.storage[this.count] = value
     this.count++
 
