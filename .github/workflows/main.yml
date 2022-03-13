@@ -1,4 +1,4 @@
-name: Tests pass
+name: Tests and linter
 
 on:
   push:
