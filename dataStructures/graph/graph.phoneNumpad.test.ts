@@ -47,10 +47,10 @@ export class GraphFromDict<T extends string | number = string> {
 describe('Graph', () => {
   describe('shortest path over phone numpad', () => {
     /*
-        7 8 9
-        4 5 6
-        1 2 3
-       */
+      7 8 9
+      4 5 6
+      1 2 3
+     */
     const vertices = {
       1: [2, 4, 5],
       2: [1, 4, 5, 6, 3],
