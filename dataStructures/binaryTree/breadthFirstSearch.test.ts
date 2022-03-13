@@ -1,20 +1,4 @@
-// const { breadthFirstSearch } = require('./breadthFirstSearch')
-
-const breadthFirstSearch = (tree, root, value) => {
-  const q = [root]
-  const path = []
-
-  while (q.length) {
-    const node = q.shift()
-    path.push(node.value)
-
-    if (node.value === value) return path
-    if (node.left !== null) q.push(tree[node.left])
-    if (node.right !== null) q.push(tree[node.right])
-  }
-
-  return null
-}
+import { breadthFirstSearch, Tree } from './breadthFirstSearch'
 
 /**
  10
@@ -23,7 +7,7 @@ const breadthFirstSearch = (tree, root, value) => {
  / \   / \
  1   9 12  18
  */
-const getTree = () => ({
+const getTree = (): Tree => ({
   '10': {
     value: '10',
     left: '4',
@@ -62,7 +46,7 @@ const getTree = () => ({
 })
 
 describe('BinarySearchTree', () => {
-  let tree
+  let tree: Tree
 
   beforeEach(() => {
     tree = getTree()

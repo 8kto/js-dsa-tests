@@ -1,3 +1,7 @@
+/**
+ * @fileOverview Tests for the Binary Tree node adding
+ */
+
 import { Logger } from './binaryTree'
 
 class Node<T> {
