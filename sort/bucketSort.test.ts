@@ -95,46 +95,54 @@ const bucketSortNegative = (
 }
 
 describe('bucket sort', () => {
-  it('sorts range of floats', () => {
-    expect(bucketSort([0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434])).toEqual([
-      0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897,
-    ])
+  describe('basic', () => {
+    it('sorts range of floats', () => {
+      expect(bucketSort([0.897, 0.565, 0.656, 0.1234, 0.665, 0.3434])).toEqual([
+        0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897,
+      ])
+    })
+
+    it('bucketSort handles sorted arrays', () => {
+      expect(bucketSort([0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897])).toEqual([
+        0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897,
+      ])
+    })
   })
 
-  it('bucketSort handles sorted arrays', () => {
-    expect(bucketSort([0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897])).toEqual([
-      0.1234, 0.3434, 0.565, 0.656, 0.665, 0.897,
-    ])
+  describe('integers', () => {
+    it('sorts mixed input', () => {
+      expect(bucketSortIntegers([2, 1, 0.5, 33, 0.33, 1.23, 100.5])).toEqual([
+        0.33, 0.5, 1, 1.23, 2, 33, 100.5,
+      ])
+    })
+
+    it('sorts integers', () => {
+      expect(bucketSortIntegers([2, 1, 1000, 0, 14004, 0, 25, 2])).toEqual([
+        0, 0, 1, 2, 2, 25, 1000, 14004,
+      ])
+    })
+
+    it('bucketSortIntegers handles sorted arrays', () => {
+      expect(bucketSortIntegers([0, 0, 1, 2, 2, 25, 1000, 14004])).toEqual([
+        0, 0, 1, 2, 2, 25, 1000, 14004,
+      ])
+    })
   })
 
-  it('sorts mixed input', () => {
-    expect(bucketSortIntegers([2, 1, 0.5, 33, 0.33, 1.23, 100.5])).toEqual([
-      0.33, 0.5, 1, 1.23, 2, 33, 100.5,
-    ])
-  })
+  describe('negatives', () => {
+    it('sorts valid input', () => {
+      expect(
+        bucketSortNegative([
+          2, -1, 1000, 0, -1.1, -1.5, 14004, -2, -3, -3.9, 0, -25, 2,
+        ])
+      ).toEqual([-25, -3.9, -3, -2, -1.5, -1.1, -1, 0, 0, 2, 2, 1000, 14004])
+    })
 
-  it('sorts integers', () => {
-    expect(bucketSortIntegers([2, 1, 1000, 0, 14004, 0, 25, 2])).toEqual([
-      0, 0, 1, 2, 2, 25, 1000, 14004,
-    ])
-  })
-
-  it('bucketSortIntegers handles sorted arrays', () => {
-    expect(bucketSortIntegers([0, 0, 1, 2, 2, 25, 1000, 14004])).toEqual([
-      0, 0, 1, 2, 2, 25, 1000, 14004,
-    ])
-  })
-
-  it('sorts valid input', () => {
-    expect(bucketSortNegative([2, -1, 1000, 0, 14004, 0, -25, 2])).toEqual([
-      -25, -1, 0, 0, 2, 2, 1000, 14004,
-    ])
-  })
-
-  it('bucketSortNegative handles sorted arrays', () => {
-    expect(bucketSortNegative([-10, -1, 0, 0.5, 1, 10])).toEqual([
-      -10, -1, 0, 0.5, 1, 10,
-    ])
+    it('bucketSortNegative handles sorted arrays', () => {
+      expect(bucketSortNegative([-10, -1, 0, 0.5, 1, 10])).toEqual([
+        -10, -1, 0, 0.5, 1, 10,
+      ])
+    })
   })
 })
 
