@@ -22,24 +22,24 @@
 export const selectionSort = (arr: number[]): number[] => {
   const sorted = []
 
-  const findIndexOfMinimal = (array: number[]) => {
-    let smallestIndex = 0
-    let smallest = array[smallestIndex]
+  const findMinIndex = (array: number[]) => {
+    let minIndex = 0
+    let min = array[minIndex]
 
     for (let i = 1; i < array.length; i++) {
-      if (array[i] < smallest) {
-        smallest = array[i]
-        smallestIndex = i
+      if (array[i] < min) {
+        min = array[i]
+        minIndex = i
       }
     }
 
-    return smallestIndex
+    return minIndex
   }
 
   while (arr.length) {
-    const indexOfMinimal = findIndexOfMinimal(arr)
-    sorted.push(arr[indexOfMinimal])
-    arr.splice(indexOfMinimal, 1)
+    const minIndex = findMinIndex(arr)
+    sorted.push(arr[minIndex])
+    arr.splice(minIndex, 1)
   }
 
   return sorted
