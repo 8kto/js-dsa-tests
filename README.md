@@ -26,8 +26,7 @@ yarn test
 ## References
 
 ### Platforms
-* Try [codewars.com](www.codewars.com/r/vGDUvQ
-  ): it is the most basic and comfortable way to solve the coding problems.
+* Try [codewars.com](www.codewars.com/r/vGDUvQ): it is the most basic and comfortable way to solve the coding problems.
 The link is referral (I will receive some points if you register).
 * [Hackerrank](https://www.hackerrank.com/): the platform has various preparation kits and a good browser code editor.
 * [LeetCode](https://leetcode.com/): another good platform, quite similar to others (you need a premium account to unlock the official explanation to the solution).
@@ -36,9 +35,10 @@ The link is referral (I will receive some points if you register).
 ### Read
 * [A way more advanced repo with DSA and CS stuff in Python](https://github.com/vinta/fuck-coding-interviews)
 * **Grokking Algorithms** book by Aditya Bhargava: a perfect start for the beginners on DSA topic.
+* [10 JavaScript Promise Challenges Before You Start an Interview](https://betterprogramming.pub/10-javascript-promise-challenges-before-you-start-an-interview-c9af8d4144ec) — a great explanation of the common promise pitfalls.
 
 
 ### Tools
-* [JavaScript Tutor](https://pythontutor.com/javascript.html#mode=edit) — great tool for visualizing JS code execution
+* [JavaScript Visualizer 9000](https://www.jsv9000.app/) — great tool for visualizing JS code execution
 * [Big-O Cheat Sheet](https://www.bigocheatsheet.com/)
 * [Data Structure Visualizations](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
